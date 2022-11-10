@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import matplotlib.animation as manimation; manimation.writers.list()
+
 def create_parent(length: int):
     parent = np.random.randint(2, size=length)
     return parent
@@ -60,7 +60,7 @@ def run_ca1d(parent_length, rule, number_of_generations):
 
 rule = 90  # select the update rule
 parent_length = 100  # number of cells in one row
-generations = 63  # number of time steps
+generations = 100  # number of time steps
 x = run_ca1d(parent_length, rule, generations)
 
 
@@ -100,4 +100,5 @@ def animate(i):
 
 # call the animator
 anim = animation.FuncAnimation(fig, animate, frames=frames, interval=50, blit=True)
-anim.save('elementary_cellular_automaton.gif', writer='imagemagick')
+plt.show()
+#anim.save('elementary_cellular_automaton.gif', writer='imagemagick')
