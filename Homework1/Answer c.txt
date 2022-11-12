@@ -1,0 +1,8 @@
+Finding new oscillators and spaceships is very hard using this algorithm since most often it doesnt converge towards a stable pattern that
+is the same as the starting pattern. One thing that was tried to combat this is to change the intial starting state to the state at which
+the check function returns true. this unfortunatelly didnt work very well either but let us see that when you initialize a glider the function
+returns true after every 4th generation except for when PBC comes into play.
+
+The better approach would be to first let the game run for a few generations hopefully stabalizing and first then compare generation 
+to generation. This would work better but still most likely converges to already known patterns. In conclusion it would take some
+more modification for it to be precise.

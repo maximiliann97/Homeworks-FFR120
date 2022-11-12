@@ -1,75 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-
-
-def birth_random_config(nRows,nCols):
-    state = np.random.choice([0, 1], (nRows, nCols))
-    return state
-
-
-def still_life(nRows, nCols, option):
-    state = np.zeros([nRows, nCols])
-
-    if option == 1:
-        state[3:5, 3:5] = 1
-    elif option == 2:
-        state[1][2] = 1
-        state[4][2] = 1
-        state[2][1] = 1
-        state[3][1] = 1
-        state[2][3] = 1
-        state[3][3] = 1
-    elif option == 3:
-        state[1][2] = 1
-        state[2][1] = 1
-        state[3][1] = 1
-        state[4][2] = 1
-        state[4][3] = 1
-        state[2][3] = 1
-        state[3][4] = 1
-    elif option == 4:
-        state[2][2] = 1
-        state[3][1] = 1
-        state[4][2] = 1
-        state[4][3] = 1
-        state[3][3] = 1
-    elif option == 5:
-        state[1][3] = 1
-        state[2][2] = 1
-        state[3][3] = 1
-        state[2][4] = 1
-    else:
-        raise Exception('Input for option should be 1-5')
-    return state
-
-def oscillator(nRows, nCols, option):
-    state = np.zeros([nRows, nCols])
-    if option == 1:
-        state[2][3] = 1
-        state[3][3] = 1
-        state[4][3] = 1
-    elif option == 2:
-        state[2][2] = 1
-        state[2][3] = 1
-        state[2][4] = 1
-        state[3][3] = 1
-        state[3][4] = 1
-        state[3][5] = 1
-
-    elif option == 3:
-        state[1][1] = 1
-        state[1][2] = 1
-        state[2][1] = 1
-        state[4][3] = 1
-        state[4][4] = 1
-        state[3][4] = 1
-    else:
-        raise Exception('Only input option 1-3')
-    return state
-
-def glider(nRows, nCols):
-    return state
 
 
 def get_alive_neighbours(state, i, j, condition=False):
@@ -123,47 +52,15 @@ def update_cell(cell, number_of_alive_neighbours):
     return cell
 
 
-def update_state(state):
+def update_state(state, condition):
     temp_state = np.zeros((len(state), len(state)))
     for i in range(len(state)):
         for j in range(len(state)):
             cell = state[i][j]
-            number_of_alive_neighbours = get_alive_neighbours(state, i, j, condition=True)
+            number_of_alive_neighbours = get_alive_neighbours(state, i, j, condition)
             temp_cell = update_cell(cell, number_of_alive_neighbours)
             temp_state[i][j] = temp_cell
     return temp_state
 
 
-
-# def main():
-#     nGenerations = 2
-#     nRows = 5
-#     nCols = 5
-#     condition = True
-#     state = birth_random_config(nRows, nCols)
-#     state_list = [state]
-#
-#     for i in range(nGenerations):
-#         updated_state = update_state(condition, state)
-#         state = updated_state
-#         state_list.append(state)
-#
-# main()
-# state = birth_random_config(10, 10)
-# state = still_life(10,10,4)
-state = oscillator(10,10,3)
-
-def animate(frame):
-    global state
-    state = update_state(state)
-    plt.title(f"10x10 Oscillator Beacon , generation {frame+1}")
-    plt.pcolormesh(state, edgecolors='k', linewidth=1.5)
-
-    ax = plt.gca()
-    ax.set_aspect('equal')
-
-
-fig = plt.figure()
-anim = animation.FuncAnimation(fig, animate, frames=20, interval=10)
-anim.save('10x10 Oscillator Beacon PBC.gif', writer='imagemagick', fps=0.5)
 
