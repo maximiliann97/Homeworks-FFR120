@@ -42,13 +42,14 @@ def check_state(state1, state2):
 
 def generations():
     nGenerations = 50
+    mod = True
     N = 8
     condition = True    # PBC
     state = initialize_grid(N)  # Initial state
     state_list = [state]
 
     for i in range(nGenerations):
-        updated_state = update_state(state, condition)
+        updated_state = update_state(state, condition, mod)
         state = updated_state
         state_list.append(state)
 

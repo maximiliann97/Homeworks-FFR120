@@ -1,0 +1,8 @@
+a.
+
+The evolution spreads out over the grid with pathways. The systems evolves towards the outer rim and then becomes
+stable in some generation over 20. The system evolves towards overpopulation rather than extinction.
+
+c.
+Extinction rules are pretty hard to find while stability is pretty easy. At least if you are looking for non-trivial solutions.
+
