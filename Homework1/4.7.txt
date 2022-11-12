@@ -7,5 +7,5 @@ c.
 Extinction rules are pretty hard to find while stability is pretty easy. At least if you are looking for non-trivial solutions.
 If you are randomizing the rules it would pretty likely that you end up with overpopulation and a stable state. This is at least
 true for a random distribution with 50% alive and 50% dead either in the center of a larger grid or covering a complete grid.
-This is what is found both from own code and using some generated code.
+This is what is found both from own code and using some example program online.
 
