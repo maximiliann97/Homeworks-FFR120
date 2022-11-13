@@ -9,9 +9,11 @@ def create_center_parent(length: int):
     parent[len(parent)//2] = 1
     return parent
 
+
 def create_parent(length: int):
     parent = np.random.randint(2, size=length)
     return parent
+
 
 def update(rule_set, left, center, right):
     if left == 1 and center == 1 and right == 1:
@@ -62,7 +64,6 @@ def run_ca1d(parent_length, rule, number_of_generations):
     return generation_matrix
 
 
-
 rule = 90  # select the update rule
 parent_length = 100  # number of cells in one row
 generations = 100  # number of time steps
@@ -78,7 +79,7 @@ ax.imshow(x, interpolation='none',cmap='RdPu')
 plt.title(f'Rule {rule}')
 plt.savefig(f'Cellular automaton Rule {rule}.png', dpi=300, bbox_inches='tight')
 
-steps_to_show = 100  # number of steps to show in the animation window
+steps2show = 100  # number of steps to show in the animation window
 iterations_per_frame = 1  # how many steps to show per frame
 frames = int(generations // iterations_per_frame)  # number of frames in the animation
 interval = 50  # interval in ms between consecutive frames
@@ -93,9 +94,9 @@ def animate(i):
     ax.clear()  # clear the plot
     ax.set_axis_off()  # disable axis
 
-    Y = np.zeros((steps_to_show, parent_length), dtype=np.int8)  # initialize with all zeros
+    Y = np.zeros((steps2show, parent_length), dtype=np.int8)  # initialize with all zeros
     upper_boundary = (i + 1) * iterations_per_frame  # window upper boundary
-    lower_boundary = 0 if upper_boundary <= steps_to_show else upper_boundary - steps_to_show  # window lower bound.
+    lower_boundary = 0 if upper_boundary <= steps2show else upper_boundary - steps2show  # window lower bound.
     for t in range(lower_boundary, upper_boundary):  # assign the values
         Y[t - lower_boundary, :] = x[t, :]
 

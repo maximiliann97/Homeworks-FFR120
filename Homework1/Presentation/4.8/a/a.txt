@@ -1,0 +1,3 @@
+After generation 23 the configuration becomes stable. The vote goes in the favour of the party benefitting of vote 0.
+There is clusters of those who vote 1 surrounded by 0 voters, which could be represented by smaller communities sharing same opinion
+while the majority votes something different.

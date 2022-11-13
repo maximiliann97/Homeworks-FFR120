@@ -17,8 +17,8 @@ def animate(frame):
 
     if frame > 0:
         state = game.update_state(state, condition, mod)
-    plt.title(f"20x20 6-4-5, generation {frame}")
-    plt.pcolormesh(state, edgecolors='k', linewidth=1.5)
+    plt.title(f"20x20 Rules: 6-4-5, generation {frame}")
+    plt.pcolormesh(state, edgecolors='k', linewidth=0.5)
 
     ax = plt.gca()
     ax.set_aspect('equal')

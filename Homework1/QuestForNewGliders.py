@@ -4,7 +4,7 @@ from GameOfLife import update_state
 
 
 def initialize_grid(N):
-    A = birth_random_config(N,N)
+    A = birth_random_config(N, N)
     B = np.zeros([3*N, 3*N])
 
     nb = B.shape[0]
@@ -63,6 +63,8 @@ state1 = state_list[0]
 for index, elem in enumerate(state_list):
     if index + 1 < len(state_list) and index - 1 >= 0:
         state2 = state_list[index]
+        print(check_state(state1, state2))
         if check_state(state1, state2):
+            print(check_state(state1, state2))
             state1 = state2
 
