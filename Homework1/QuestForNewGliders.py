@@ -45,7 +45,7 @@ def generations():
     N = 10
     mod = False
     condition = True    # PBC
-    state = special_oscillator(10,10) # Initial state  # Initial state
+    state = initialize_grid(N)  # Initial state  # Initial state
     state_list = [state]
 
     for i in range(nGenerations):
