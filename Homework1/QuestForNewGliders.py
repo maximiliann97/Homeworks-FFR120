@@ -21,9 +21,8 @@ def translation(state, s_x, s_y):
     return state
 
 
-def check_state(state1, state2):
+def check_state_spaceships(state1, state2):
     directions = np.array([
-        [0, 0],
         [1, 0],
         [-1, 0],
         [0, 1],
@@ -42,7 +41,7 @@ def check_state(state1, state2):
 
 
 def generations():
-    nGenerations = 100
+    nGenerations = 10000
     N = 10
     mod = False
     condition = True    # PBC
@@ -59,13 +58,18 @@ def generations():
 
 state_list = generations()
 state1 = state_list[0]
-saved_states = []
+saved_spaceships = []
+saved_oscillators = []
 
-for index, elem in enumerate(state_list):
-    if index + 1 < len(state_list) and index - 1 >= 0:
-        state2 = state_list[index]
-        print(check_state(state1, state2))
-        if check_state(state1, state2):
-            state1 = state2
-            saved_states.append(state1)
+for i, _ in enumerate(state_list):
+    for j, _ in enumerate(state_list):
+        state1 = state_list[i]
+        state2 = state_list[j]
+        if i != j:
+            if np.array_equal(state1, state2):
+                saved_oscillators.append(state2)
+            if check_state_spaceships(state1, state2):
+                print(check_state_spaceships(state1, state2))
+                saved_spaceships.append(state2)
+
 
