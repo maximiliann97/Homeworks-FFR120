@@ -1,5 +1,5 @@
 import numpy as np
-from initStates import birth_random_config, still_life, oscillator, glider
+from initStates import birth_random_config, still_life, oscillator, glider, special_oscillator
 from GameOfLife import update_state
 
 
@@ -42,11 +42,11 @@ def check_state(state1, state2):
 
 
 def generations():
-    nGenerations = 50
-    mod = True
-    N = 8
+    nGenerations = 100
+    N = 10
+    mod = False
     condition = True    # PBC
-    state = initialize_grid(N)  # Initial state
+    state = initialize_grid(N) # Initial state  # Initial state
     state_list = [state]
 
     for i in range(nGenerations):
@@ -59,12 +59,13 @@ def generations():
 
 state_list = generations()
 state1 = state_list[0]
+saved_states = []
 
 for index, elem in enumerate(state_list):
     if index + 1 < len(state_list) and index - 1 >= 0:
         state2 = state_list[index]
         print(check_state(state1, state2))
         if check_state(state1, state2):
-            print(check_state(state1, state2))
             state1 = state2
+            saved_states.append(state1)
 

@@ -1,13 +1,13 @@
 import GameOfLife as game
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from initStates import birth_random_config, still_life, oscillator, glider
+from initStates import birth_random_config, still_life, oscillator, glider, special_oscillator
 from QuestForNewGliders import initialize_grid
 
 # Inits
-state = initialize_grid(20)
+state = special_oscillator(20,20)
 condition = True
-mod = True
+mod = False
 
 
 def animate(frame):
@@ -17,7 +17,7 @@ def animate(frame):
 
     if frame > 0:
         state = game.update_state(state, condition, mod)
-    plt.title(f"20x20 Rules: 6-4-5, generation {frame}")
+    plt.title(f"New oscillator, generation {frame}")
     plt.pcolormesh(state, edgecolors='k', linewidth=0.5)
 
     ax = plt.gca()
@@ -26,6 +26,6 @@ def animate(frame):
 
 fig = plt.figure()
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=10)
-anim.save('Modified rules Extinction.gif', writer='imagemagick', fps=1.5)
+anim.save('New oscillator.gif', writer='imagemagick', fps=1.5)
 
 

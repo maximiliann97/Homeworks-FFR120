@@ -4,8 +4,10 @@ The evolution spreads out over the grid with pathways. The systems evolves towar
 stable in some generation over 20. The system evolves towards overpopulation rather than extinction.
 
 c.
-Extinction rules are pretty hard to find while stability is pretty easy. At least if you are looking for non-trivial solutions.
-If you are randomizing the rules it would pretty likely that you end up with overpopulation and a stable state. This is at least
-true for a random distribution with 50% alive and 50% dead either in the center of a larger grid or covering a complete grid.
-This is what is found both from own code and using some example program online.
+It is likely that a random set of rules results in complexity is rather high since the game of life is model that makes it easier to understand the universe. 
+It is a simple example of how huge complexity can be derived from very simple rules.The rules can be simple enough for one person to understand, 
+and yet produce a universe so complex that that it takes the the entire human race to understand just part of it.
+
+This also corresponds well with the findings of playing around with some different rules, you often end up with complex states rather than total extinction
+
 

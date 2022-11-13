@@ -98,3 +98,28 @@ def glider(nRows, nCols, orientation):
     else:
         raise Exception('Must choose an orientation between 1-4')
     return state
+
+
+def special_oscillator(nRows, nCols):
+    state = np.zeros([nRows, nCols])
+    state[4][4] = 1
+    state[4][5] = 1
+    state[4][6] = 1
+    state[5][4] = 1
+    state[5][5] = 1
+    state[5][6] = 1
+    state[6][4] = 1
+    state[6][5] = 1
+    state[6][6] = 1
+
+    state[1][7] = 1
+    state[1][8] = 1
+    state[1][9] = 1
+    state[2][7] = 1
+    state[2][8] = 1
+    state[2][9] = 1
+    state[3][7] = 1
+    state[3][8] = 1
+    state[3][9] = 1
+
+    return state
