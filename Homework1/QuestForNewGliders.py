@@ -57,7 +57,6 @@ def generations():
 
 
 state_list = generations()
-state1 = state_list[0]
 saved_spaceships = []
 saved_oscillators = []
 
