@@ -63,7 +63,7 @@ def run_ca1d(parent_length, rule, number_of_generations):
 
 
 
-rule = 126  # select the update rule
+rule = 90  # select the update rule
 parent_length = 100  # number of cells in one row
 generations = 100  # number of time steps
 x = run_ca1d(parent_length, rule, generations)
