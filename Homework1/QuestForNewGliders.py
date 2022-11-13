@@ -36,8 +36,9 @@ def check_state(state1, state2):
 
     for d in directions:
         if np.array_equal(state2, translation(state1, d[0], d[1])):
-            return print(f'{True} Translated direction {d}')
-    return print(f' {False} No gliders or oscillators found')
+            print(f'Translated direction{d}')
+            return True
+    return False
 
 
 def generations():

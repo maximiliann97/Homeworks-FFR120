@@ -3,10 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+
+def create_center_parent(length: int):
+    parent = np.zeros(length)
+    parent[len(parent)//2] = 1
+    return parent
+
 def create_parent(length: int):
     parent = np.random.randint(2, size=length)
     return parent
-
 
 def update(rule_set, left, center, right):
     if left == 1 and center == 1 and right == 1:
@@ -47,7 +52,7 @@ def next_generation(cellular_automaton, rule):
 
 def run_ca1d(parent_length, rule, number_of_generations):
     generation_matrix = np.zeros([number_of_generations+1, parent_length])
-    parent = create_parent(parent_length)
+    parent = create_center_parent(parent_length)
     generation_matrix[0, :] = parent
     next_gen = parent
     for j in range(number_of_generations):
@@ -58,7 +63,7 @@ def run_ca1d(parent_length, rule, number_of_generations):
 
 
 
-rule = 90  # select the update rule
+rule = 126  # select the update rule
 parent_length = 100  # number of cells in one row
 generations = 100  # number of time steps
 x = run_ca1d(parent_length, rule, generations)
@@ -70,7 +75,8 @@ ax = plt.axes()
 ax.set_axis_off()
 
 ax.imshow(x, interpolation='none',cmap='RdPu')
-plt.savefig('cellular_automaton.png', dpi=300, bbox_inches='tight')
+plt.title(f'Rule {rule}')
+plt.savefig(f'Cellular automaton Rule {rule}.png', dpi=300, bbox_inches='tight')
 
 steps_to_show = 100  # number of steps to show in the animation window
 iterations_per_frame = 1  # how many steps to show per frame
@@ -101,4 +107,4 @@ def animate(i):
 # call the animator
 anim = animation.FuncAnimation(fig, animate, frames=frames, interval=50, blit=True)
 plt.show()
-#anim.save('elementary_cellular_automaton.gif', writer='imagemagick')
+anim.save(f'Cellular automaton Rule {rule}.gif', writer='imagemagick')

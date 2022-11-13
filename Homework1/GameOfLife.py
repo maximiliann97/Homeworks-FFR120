@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def get_alive_neighbours(state, i, j, condition=False):
+def get_alive_neighbours(state, i, j, condition):
     alive_count = 0
     if not condition:
         padded_state = np.pad(state, [(1, 1), (1, 1)])

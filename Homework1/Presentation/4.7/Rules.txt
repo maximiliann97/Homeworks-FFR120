@@ -1,0 +1,5 @@
+Format: a-b-c
+
+>a death
+<b death
+=c rebirth
