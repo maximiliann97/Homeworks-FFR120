@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from GameOfLife import get_alive_neighbours
+from GameOfLife import get_alive_neighbours as get_neighbour_votes
 
 
 def initialize_board(nRows, nCols, p):
@@ -27,12 +27,12 @@ def update_board_state(state, condition):
     for i in range(len(state)):
         for j in range(len(state)):
             cell = state[i][j]
-            number_of_neighbours_voting = get_alive_neighbours(state, i, j, condition)
+            number_of_neighbours_voting = get_neighbour_votes(state, i, j, condition)
             temp_cell = update_vote(cell, number_of_neighbours_voting)
             temp_state[i][j] = temp_cell
     return temp_state
 
-
+# Inits
 p = 0.6
 nRows = 100
 nCols = 100
@@ -55,4 +55,4 @@ def animate(frame):
 
 fig = plt.figure()
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=10)
-anim.save(f'Majority p={p}.gif', writer='imagemagick', fps=1.5)
+anim.save(f'Majority p={p}.gif', writer='imagemagick', fps=2)
