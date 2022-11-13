@@ -41,11 +41,11 @@ def check_state_spaceships(state1, state2):
 
 
 def generations():
-    nGenerations = 10000
+    nGenerations = 100
     N = 10
     mod = False
     condition = True    # PBC
-    state = initialize_grid(N) # Initial state  # Initial state
+    state = special_oscillator(10,10) # Initial state  # Initial state
     state_list = [state]
 
     for i in range(nGenerations):
@@ -68,6 +68,7 @@ for i, _ in enumerate(state_list):
         if i != j:
             if np.array_equal(state1, state2):
                 saved_oscillators.append(state2)
+                print('Oscillator found')
             if check_state_spaceships(state1, state2):
                 print(check_state_spaceships(state1, state2))
                 saved_spaceships.append(state2)
