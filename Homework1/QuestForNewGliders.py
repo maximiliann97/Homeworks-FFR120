@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 from initStates import birth_random_config, still_life, oscillator, glider, special_oscillator
 from GameOfLife import update_state
@@ -41,7 +43,7 @@ def check_state_spaceships(state1, state2):
 
 
 def generations():
-    nGenerations = 100
+    nGenerations = 10000
     N = 10
     mod = False
     condition = True    # PBC
@@ -67,7 +69,7 @@ for i, _ in enumerate(state_list):
         if i != j:
             if np.array_equal(state1, state2):
                 saved_oscillators.append(state2)
-                print('Oscillator found')
+                print('Oscillator found or spaceship found')
             if check_state_spaceships(state1, state2):
                 print(check_state_spaceships(state1, state2))
                 saved_spaceships.append(state2)
