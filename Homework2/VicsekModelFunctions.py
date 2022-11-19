@@ -27,5 +27,10 @@ def PBC(particles, L):
     return particles
 
 
-def determine_particles(particles, L):
-    
+def particlesInRadius(particles, L, r):
+    particle_dir = {}
+    for i, _ in enumerate(particles):
+        for j, _ in enumerate(particles):
+            if i != j:
+                if np.linalg.norm(particles[i], particles[j]) < r:
+                    key = i
