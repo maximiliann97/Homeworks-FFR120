@@ -27,23 +27,28 @@ def PBC(particles, L):
     return particles
 
 
-def particlesInRadius(particles, L, r):
-    particle_dir = dict()
+def particles_in_radius(particles, L, r):
+    particle_dict = dict()
     temp_list = []
     for i, _ in enumerate(particles):
         for j, _ in enumerate(particles):
             if i != j:
                 if np.linalg.norm(particles[i]-particles[j]) < r:
                     temp_list.append(j)
-        particle_dir[i] = temp_list
+        particle_dict[i] = temp_list
         temp_list = []
 
-    return particle_dir
+    return particle_dict
 
-L = 10
-N = 20
-r = 5
-particles = generate_particles(N,L)
-particles = PBC(particles,L)
-dir = particlesInRadius(particles, L, r)
-print(dir)
+
+def get_velocity(theta, v=1):
+    velocity = np.zeros([len(theta), 2])
+    velocity[:, 0] = v*np.cos(theta)
+    velocity[:, 1] = v*np.sin(theta)
+
+    return velocity
+
+
+
+def get_global_alignment(velocity):
+    
