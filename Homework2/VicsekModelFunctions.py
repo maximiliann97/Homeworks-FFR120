@@ -50,16 +50,16 @@ def get_global_alignment(velocity, v=1):
     return coeff
 
 
-def voronoi_tessellation():
+def voronoi_tessellation(vor, index):
     voronoi_area = 1
     return voronoi_area
 
 
-def get_global_clustering(particles, r):
+def get_global_clustering(particles, L, r):
     count = 0
     for index, particle in enumerate(particles):
         vor = Voronoi(particle)
-        area = voronoi_tessellation()
+        area = voronoi_tessellation(vor, index)
         if area < np.pi*r**2:
             count += 1
 
