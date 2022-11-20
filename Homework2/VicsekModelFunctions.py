@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial import Voronoi, ConvexHull
 
 
 def PBC(particles, L):
@@ -16,13 +17,13 @@ def PBC(particles, L):
     return particles
 
 
-def generate_particles_positions(N, L):
+def generate_particle_positions(N, L):
     particles = np.random.rand(N, 2) * 2 * L - L/2
     theta = np.random.rand(N)*2*np.pi
-    return [PBC(particles), theta]
+    return [PBC(particles, L), theta]
 
 
-def particles_in_radius(particles, L, r):
+def particles_in_radius(particles, r):
     particle_dict = dict()
     temp_list = []
     for i, _ in enumerate(particles):
@@ -44,7 +45,10 @@ def get_velocity(theta, v=1):
 
 
 def get_global_alignment(velocity, v=1):
-    sum = np.sum(velocity, axis=0)/v
-    coeff = 1/len(velocity[:, 0]) * np.linalg.norm(sum)
+    summation = np.sum(velocity, axis=0)/v
+    coeff = 1/len(velocity[:, 0]) * np.linalg.norm(summation)
     return coeff
 
+
+def voronoi_tessellation(particles):
+    vor = Voronoi(particles)
