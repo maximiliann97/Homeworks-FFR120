@@ -17,9 +17,9 @@ def PBC(particles, L):
 
 
 def generate_particles_positions(N, L):
-    coordinates = np.random.rand(N, 2) * 2 * L - L
+    particles = np.random.rand(N, 2) * 2 * L - L/2
     theta = np.random.rand(N)*2*np.pi
-    return [coordinates, theta]
+    return [PBC(particles), theta]
 
 
 def particles_in_radius(particles, L, r):
@@ -45,5 +45,6 @@ def get_velocity(theta, v=1):
 
 def get_global_alignment(velocity, v=1):
     sum = np.sum(velocity, axis=0)/v
-    coeff = 1/len(velocity) * np.abs(sum)
+    coeff = 1/len(velocity[:, 0]) * np.linalg.norm(sum)
     return coeff
+
