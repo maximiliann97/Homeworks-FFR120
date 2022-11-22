@@ -33,13 +33,13 @@ for i in range(iterations):
     particles = functions.update_positions(particles, velocity, delta_t, L)
     global_alignment[i] = functions.get_global_alignment(velocity, v)
     clustering[i] = functions.get_global_clustering(particles, R)
-    if i == 9:
+    if i + 1 == 10:
         particles_10 = particles
-    if i == 99:
+    if i + 1 == 100:
         particles_100 = particles
-    if i == 499:
+    if i + 1 == 500:
         particles_500 = particles
-    if i == 999:
+    if i + 1 == 1000:
         particles_1000 = particles
 
 
