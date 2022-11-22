@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.spatial import Voronoi
+from scipy.spatial import Voronoi, ConvexHull
 
 
 def generate_particle_positions(N, L, displacement=None):
@@ -60,10 +60,11 @@ def get_global_alignment(velocity, v=1):
     return global_coeff
 
 
+
 def get_global_clustering(particles, R):
+    count = 0
     N = len(particles)
     vor = Voronoi(particles)
-    count = 0
     for index, _ in enumerate(particles):
         iPoly = vor.point_region[index]
         iCorners = vor.regions[iPoly]
@@ -94,7 +95,7 @@ def update_orientation(particles, orientations, eta, delta_t, R, L):
             average = neighbours_orientation
         else:
             average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
-        updated_orientation[index] = average + eta * W[index] * delta_t
+        updated_orientation[index] = average + eta/2 * W[index] * delta_t
     return updated_orientation
 
 

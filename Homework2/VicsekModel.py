@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 
 #########################################
 # Initialization parameters
-L = 100
 N = 100
-v = 1
+L = 1000
+v = 3
 delta_t = 1
-eta = 0.01
-R = 1
-iterations = 10000
+eta = 0.4
+R = 20
+iterations = 5000
 #########################################
 
 particles = np.load('init_particles.npy')
@@ -20,7 +20,7 @@ orientations = np.load('init_orientation.npy')
 vor = Voronoi(particles)
 fig1 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-50, 50])
-plt.title(f'Initial configuration. R={R}, noise={eta}, N={N}')
+plt.title(f'Initial configuration. Parameters: R={R}, noise={eta}, N={N}')
 
 
 global_alignment = np.zeros(iterations)
@@ -48,44 +48,42 @@ vor = Voronoi(particles)
 fig2 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-L/2, L/2])
 plt.ylim([-L/2, L/2])
-plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}')
+plt.title(f'Configuration after {iterations} iterations. Parameters: R={R}, noise={eta}, N={N}')
 
 # Iterations = 10
 vor = Voronoi(particles_10)
 fig3 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-L/2, L/2])
 plt.ylim([-L/2, L/2])
-plt.title(f'Configuration after {10} iterations. R={R}, noise={eta}, N={N}')
+plt.title(f'Configuration after {10} iterations. Parameters: R={R}, noise={eta}, N={N}')
 
 # Iterations = 100
 vor = Voronoi(particles_100)
 fig4 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-L/2, L/2])
 plt.ylim([-L/2, L/2])
-plt.title(f'Configuration after {100} iterations. R={R}, noise={eta}, N={N}')
+plt.title(f'Configuration after {100} iterations. Parameters: R={R}, noise={eta}, N={N}')
 
 # Iterations = 500
 vor = Voronoi(particles_500)
 fig4 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-L/2, L/2])
 plt.ylim([-L/2, L/2])
-plt.title(f'Configuration after {500} iterations. R={R}, noise={eta}, N={N}')
+plt.title(f'Configuration after {500} iterations. Parameters: R={R}, noise={eta}, N={N}')
 
 # Iterations = 1000
 vor = Voronoi(particles_1000)
 fig5 = voronoi_plot_2d(vor, show_vertices=False)
 plt.xlim([-L/2, L/2])
 plt.ylim([-L/2, L/2])
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}')
-
-
+plt.title(f'Configuration after {1000} iterations. Parameters: R={R}, noise={eta}, N={N}')
 
 
 fig, ax = plt.subplots()
 ax.plot(times, global_alignment, label='Global alignment')
 ax.plot(times, clustering, label='Global clustering')
-leg = ax.legend()
+leg = ax.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
-plt.ylabel('Clustering coefficient and alignment coefficient')
-plt.title(f'Iterations={iterations}. R={R}, noise={eta}, N={N}')
+plt.ylabel(r'$\psi$, $c$')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}')
 plt.show()
