@@ -54,11 +54,10 @@ def get_velocity(orientations, v=1):
     return velocity
 
 
-def get_global_alignment(velocity, v=1):
+def get_global_alignment(velocity, v):
     summation = np.sum(velocity, axis=0)
     global_coeff = np.linalg.norm(summation)/(v*len(velocity))
     return global_coeff
-
 
 
 def get_global_clustering(particles, R):
@@ -95,7 +94,7 @@ def update_orientation(particles, orientations, eta, delta_t, R, L):
             average = neighbours_orientation
         else:
             average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
-        updated_orientation[index] = average + eta/2 * W[index] * delta_t
+        updated_orientation[index] = average + eta * W[index] * delta_t
     return updated_orientation
 
 
