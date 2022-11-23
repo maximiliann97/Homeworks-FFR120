@@ -155,23 +155,32 @@ def plot_voronoi(particles, L):
     plt.ylim(- L / 2, L / 2)
 
 
-# def update_with_delay(particles, orientations, eta, delta_t, R, L, prev_orientations, h):
-#     n = len(prev_orientations)
-#     N = len(orientations)
-#     W = np.random.uniform(-1 / 2, 1 / 2, N)
-#     neighbours_of_particles = particles_in_radius(particles, R, L)
-#     updated_orientation = np.zeros(N)
-#     if h > 0:
-#         for j in range(N):
-#             neighbours = neighbours_of_particles[j][0]
-#             neighbours_orientation = orientations[neighbours]
-#             if len(neighbours_orientation) == 1:
-#                 average = neighbours_orientation
-#             else:
-#                 temp = prev_orientations[n-h]
-#                 average = np.arctan(np.mean(np.sin(temp[neighbours])) / np.mean(np.cos(temp[neighbours])))
-#             updated_orientation[j] = average + eta * W[j] * delta_t
-#     else:
-#         updated_orientation = update_orientation(particles, orientations, eta, delta_t, R, L)
-#     return updated_orientation
+def update_orientation_2(orientations, neighbours_of_particle, eta, delta_t):
+    N = len(orientations)
+    W = np.random.uniform(-1/2, 1/2, N)
+    updated_orientation = np.zeros(N)
+    for index in range(N):
+        neighbours = neighbours_of_particle[index]
+        neighbours_orientation = orientations[neighbours]
+        neighbours_orientation = [neighbours_orientation]
+        if len(neighbours_orientation) == 1:
+            average = neighbours_orientation
+        else:
+            average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
+        updated_orientation[index] = average + eta * W[index] * delta_t
+    return updated_orientation
 
+
+def particles_in_radius_2(particles, R, L):
+    N = len(particles)
+    particle_indices = []
+    for i in range(N):
+        x_distance = np.abs(particles[i, 0] - particles[:, 0])
+        y_distance = np.abs(particles[i, 1] - particles[:, 1])
+        min_x_distance = np.minimum(x_distance, L-x_distance)
+        min_y_distance = np.minimum(y_distance, L - y_distance)
+        distance = np.sqrt(min_x_distance**2 + min_y_distance**2)
+        indices = np.where(distance < R)
+        indices = indices[0][0]
+        particle_indices.append(indices)
+    return particle_indices
