@@ -39,7 +39,7 @@ velocity = functions.get_velocity(orientations, v)
 orientation_list = [orientations]
 particle_list = [particles]
 
-#Retardness code
+
 for h in H:
     particle_list = []
     orientation_list = []
@@ -72,41 +72,6 @@ for h in H:
     mean_clustering.append(np.mean(clustering))
 
 
-
-
-
-# Botlauri
-# for h in H:
-#     prev_orientations = []
-#     particles = np.load('init_particles_8_8.npy')
-#     orientations = np.load('init_orientation_8_8.npy')
-#     prev_orientations = [orientations]
-#     for i in range(iterations):
-#         if i >= h:
-#             velocity = functions.get_velocity(orientations, v)
-#             particles = functions.update_positions(particles, velocity, delta_t, L)
-#             orientations = functions.update_with_delay(particles, orientations, eta, delta_t, R, L, prev_orientations, h)
-#         else:
-#             orientations = functions.update_orientation(particles, orientations, eta, delta_t, R, L)
-#             velocity = functions.get_velocity(orientations, v)
-#             particles = functions.update_positions(particles, velocity, delta_t, L)
-#
-#         prev_orientations.append(orientations)
-#         global_alignment[i] = functions.get_global_alignment(velocity, v)
-#         clustering[i] = functions.get_global_clustering(particles, R, L)
-#
-#         if i + 1 == 1000:
-#             particles_1000_h.append(particles)
-#         if i + 1 == 10000:
-#             particles_10000_h.append(particles)
-#     mean_global.append(np.mean(global_alignment))
-#     mean_clustering.append(np.mean(clustering))
-
-
-
-
-
-
 # Iterations 1000
 functions.plot_voronoi(particles_1000_h[0], L)
 plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={0}')
@@ -115,6 +80,15 @@ functions.plot_voronoi(particles_1000_h[3], L)
 plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
 functions.plot_voronoi(particles_1000_h[26], L)
+plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={25}')
+
+functions.plot_voronoi(particles_10000_h[0], L)
+plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={0}')
+
+functions.plot_voronoi(particles_10000_h[3], L)
+plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={2}')
+
+functions.plot_voronoi(particles_10000_h[26], L)
 plt.title(f'Configuration after {iterations} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 

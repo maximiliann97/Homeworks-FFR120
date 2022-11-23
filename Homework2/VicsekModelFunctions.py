@@ -1,5 +1,6 @@
 import numpy as np
-from scipy.spatial import Voronoi, ConvexHull
+from scipy.spatial import Voronoi, ConvexHull, voronoi_plot_2d
+import matplotlib.pyplot as plt
 
 
 def generate_particle_positions(N, L, displacement=None):
@@ -60,15 +61,21 @@ def get_global_alignment(velocity, v):
     return global_coeff
 
 
-def get_global_clustering(particles, R):
+def get_global_clustering(particles, R, L):
     count = 0
     N = len(particles)
-    vor = Voronoi(particles)
+    replica = replicas(particles, L)
+    expanded_particles = np.copy(particles)
+
+    for j in range(len(replica)):
+        expanded_particles = np.append(expanded_particles, replica[j], axis=0)
+
+    vor = Voronoi(expanded_particles)
     for index, _ in enumerate(particles):
         iPoly = vor.point_region[index]
         iCorners = vor.regions[iPoly]
-        poly_corners = vor.vertices[iCorners]
-        area = poly_area(poly_corners)
+        poly_vertices = vor.vertices[iCorners]
+        area = poly_area(poly_vertices)
         if area < np.pi*R**2:
             count += 1
     clust_coeff = count/N
@@ -101,4 +108,70 @@ def update_orientation(particles, orientations, eta, delta_t, R, L):
 def update_positions(particles, velocity, delta_t, L):
     updated_pos = PBC(particles + velocity * delta_t, L)
     return updated_pos
+
+
+def replicas(x, L):
+    x_replica_right = np.copy(x)
+    x_replica_right[:, 0] = x_replica_right[:, 0] + L
+
+    x_replica_left = np.copy(x)
+    x_replica_left[:, 0] = x_replica_left[:, 0] - L
+
+    x_replica_up = np.copy(x)
+    x_replica_up[:, 1] = x_replica_up[:, 1] + L
+
+    x_replica_down = np.copy(x)
+    x_replica_down[:, 1] = x_replica_down[:, 1] - L
+
+    x_replica_diag1 = np.copy(x)
+    x_replica_diag1[:, :] = x_replica_diag1[:, :] + L
+
+    x_replica_diag2 = np.copy(x)
+    x_replica_diag2[:, :] = x_replica_diag2[:, :] - L
+
+    x_replica_diag3 = np.copy(x)
+    x_replica_diag3[:, 0] = x_replica_diag3[:, 0] + L
+    x_replica_diag3[:, 1] = x_replica_diag3[:, 1] - L
+
+    x_replica_diag4 = np.copy(x)
+    x_replica_diag4[:, 0] = x_replica_diag4[:, 0] - L
+    x_replica_diag4[:, 1] = x_replica_diag4[:, 1] + L
+
+    x_replica = [x_replica_down, x_replica_up, x_replica_right, x_replica_left,
+             x_replica_diag1, x_replica_diag2, x_replica_diag3, x_replica_diag4]
+    return x_replica
+
+
+def plot_voronoi(particles, L):
+    replica = replicas(particles, L)
+    expanded_particles = np.copy(particles)
+
+    for i in range(len(replica)):
+        expanded_particles = np.append(expanded_particles, replica[i], axis=0)
+
+    vor = Voronoi(expanded_particles)
+    voronoi_plot_2d(vor, show_vertices=False)
+    plt.xlim(- L / 2, L / 2)
+    plt.ylim(- L / 2, L / 2)
+
+
+# def update_with_delay(particles, orientations, eta, delta_t, R, L, prev_orientations, h):
+#     n = len(prev_orientations)
+#     N = len(orientations)
+#     W = np.random.uniform(-1 / 2, 1 / 2, N)
+#     neighbours_of_particles = particles_in_radius(particles, R, L)
+#     updated_orientation = np.zeros(N)
+#     if h > 0:
+#         for j in range(N):
+#             neighbours = neighbours_of_particles[j][0]
+#             neighbours_orientation = orientations[neighbours]
+#             if len(neighbours_orientation) == 1:
+#                 average = neighbours_orientation
+#             else:
+#                 temp = prev_orientations[n-h]
+#                 average = np.arctan(np.mean(np.sin(temp[neighbours])) / np.mean(np.cos(temp[neighbours])))
+#             updated_orientation[j] = average + eta * W[j] * delta_t
+#     else:
+#         updated_orientation = update_orientation(particles, orientations, eta, delta_t, R, L)
+#     return updated_orientation
 
