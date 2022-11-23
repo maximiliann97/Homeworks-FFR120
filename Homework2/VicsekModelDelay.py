@@ -13,7 +13,7 @@ delta_t = 1
 eta = 0.4
 R = 20
 iterations = 10000
-H = np.arange(26)
+H = [0, 2, 25]
 #########################################
 
 # Load
@@ -84,20 +84,20 @@ for h in H:
 functions.plot_voronoi(particles_1000_h[0], L)
 plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={0}')
 
-functions.plot_voronoi(particles_1000_h[2], L)
+functions.plot_voronoi(particles_1000_h[1], L)
 plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
-functions.plot_voronoi(particles_1000_h[25], L)
+functions.plot_voronoi(particles_1000_h[2], L)
 plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 # Iterations 10000
 functions.plot_voronoi(particles_10000_h[0], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={0}')
 
-functions.plot_voronoi(particles_10000_h[2], L)
+functions.plot_voronoi(particles_10000_h[1], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
-functions.plot_voronoi(particles_10000_h[25], L)
+functions.plot_voronoi(particles_10000_h[2], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 fig, ax1 = plt.subplots()
@@ -106,7 +106,7 @@ ax1.plot(times, clustering_list[0], label='Global clustering')
 ax1.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
 plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={0}')
 
 
 fig1, ax2 = plt.subplots()
@@ -115,7 +115,7 @@ ax2.plot(times, clustering_list[1], label='Global clustering')
 ax2.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
 plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={2}')
 
 
 fig2, ax3 = plt.subplots()
@@ -124,7 +124,7 @@ ax3.plot(times, clustering_list[2], label='Global clustering')
 ax3.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
 plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={25}')
 
 fig3, ax4 = plt.subplots()
 ax4.scatter(H, mean_global, label='Global alignment')

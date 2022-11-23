@@ -36,40 +36,29 @@ global_list = []
 clustering_list = []
 mean_global = []
 mean_clustering = []
+
 velocity = functions.get_velocity(orientations, v)
-orientation_list = [orientations]
-particle_list = [particles]
 
-#Retardness code
 for h in H:
-    particle_list = []
-    orientation_list = []
-    particles = np.load('init_particles_8_8.npy')
-    orientations = np.load('init_orientation_8_8.npy')
-    velocity = functions.get_velocity(orientations, v)
-    orientation_list = [orientations]
-    particle_list = [particles]
     for i in trange(iterations):
-        if i > h > 0:
-            global_alignment[i] = functions.get_global_alignment(velocity, v)
-            clustering[i] = functions.get_global_clustering(particles, R, L)
-            orientations = functions.update_orientation(particle_list[i-h], orientation_list[i-h], eta, delta_t, R, L)
-            velocity = functions.get_velocity(orientation_list[i-h], v)
-            particles = functions.update_positions(particles, velocity, delta_t, L)
-        else:
-            global_alignment[i] = functions.get_global_alignment(velocity, v)
-            clustering[i] = functions.get_global_clustering(particles, R, L)
-            orientations = functions.update_orientation(particles, orientations, eta, delta_t, R, L)
-            velocity = functions.get_velocity(orientations, v)
-            particles = functions.update_positions(particles, velocity, delta_t, L)
+        global_alignment[i] = functions.get_global_alignment(velocity, v)
+        clustering[i] = functions.get_global_clustering(particles, R, L)
 
-        orientation_list.append(orientations)
-        particle_list.append(particles)
+        replica_particles = np.copy(particles)
+        replica_velocity = np.copy(velocity)
+        for d in range(-h):
+            orientations = functions.update_orientation(replica_particles, orientations, eta, delta_t, R, L)
+            replica_velocity = functions.get_velocity(orientations, v)
+            replica_particles = functions.update_positions(replica_particles, replica_velocity, delta_t, L)
+        orientations = functions.update_orientation(particles, orientations, eta, delta_t, R, L)
+        velocity = functions.get_velocity(orientations, v)
+        particles = functions.update_positions(particles, velocity, delta_t, L)
+
         if i + 1 == 1000:
             particles_1000_h.append(particles)
         if i + 1 == 10000:
             particles_10000_h.append(particles)
-    if h == 0 or h == 2 or h == 25:
+    if h == -1 or h == -5 or h == -15:
         global_list.append(global_alignment)
         clustering_list.append(clustering)
     mean_global.append(np.mean(global_alignment))
