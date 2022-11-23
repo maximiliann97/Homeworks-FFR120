@@ -11,7 +11,7 @@ v = 1
 delta_t = 1
 eta = 0.01
 R = 1
-iterations = 10000
+iterations = 1000
 h = None
 #########################################
 
@@ -49,8 +49,7 @@ plt.title(f'Configuration after {iterations} iterations, R={R}, noise={eta}, N={
 fig, ax = plt.subplots()
 ax.plot(times, global_alignment, label='Global alignment')
 ax.plot(times, clustering, label='Global clustering')
-leg = ax.legend([r'$\psi$',r'$c$'])
+ax.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
 plt.ylabel(r'$\psi$, $c$')
 plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
-plt.show()
