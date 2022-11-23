@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.spatial import Voronoi, ConvexHull, voronoi_plot_2d
 import matplotlib.pyplot as plt
+import math
 
 
 def generate_particle_positions(N, L, displacement=None):
@@ -35,11 +36,11 @@ def particles_in_radius(particles, R, L):
     N = len(particles)
     particle_indices = []
     for i in range(N):
-        x_distance = np.abs(particles[i, 0] - particles[:, 0])
-        y_distance = np.abs(particles[i, 1] - particles[:, 1])
-        min_x_distance = np.minimum(x_distance, L-x_distance)
-        min_y_distance = np.minimum(y_distance, L - y_distance)
-        distance = np.sqrt(min_x_distance**2 + min_y_distance**2)
+        x_dist = np.abs(particles[i, 0] - particles[:, 0])
+        y_dist = np.abs(particles[i, 1] - particles[:, 1])
+        min_x_dist = np.minimum(x_dist, L-x_dist)
+        min_y_dist = np.minimum(y_dist, L - y_dist)
+        distance = np.sqrt(min_x_dist**2 + min_y_dist**2)
         indices = np.where(distance < R)
         particle_indices.append(indices)
     return particle_indices
@@ -175,42 +176,39 @@ def particles_in_radius_2(particles, R, L):
     N = len(particles)
     particle_indices = []
     for i in range(N):
-        x_distance = np.abs(particles[i, 0] - particles[:, 0])
-        y_distance = np.abs(particles[i, 1] - particles[:, 1])
-        min_x_distance = np.minimum(x_distance, L-x_distance)
-        min_y_distance = np.minimum(y_distance, L - y_distance)
-        distance = np.sqrt(min_x_distance**2 + min_y_distance**2)
+        x_dist = np.abs(particles[i, 0] - particles[:, 0])
+        y_dist = np.abs(particles[i, 1] - particles[:, 1])
+        min_x_dist = np.minimum(x_dist, L-x_dist)
+        min_y_dist = np.minimum(y_dist, L - y_dist)
+        distance = np.sqrt(min_x_dist**2 + min_y_dist**2)
         indices = np.where(distance < R)
         indices = indices[0][0]
         particle_indices.append(indices)
     return particle_indices
 
 
-def particles_in_radius_knearest(particles, R, L, k):
+def k_nearest(particles, L, k):
     N = len(particles)
     particle_indices = []
     for i in range(N):
-        x_distance = np.abs(particles[i, 0] - particles[:, 0])
-        y_distance = np.abs(particles[i, 1] - particles[:, 1])
-        min_x_distance = np.minimum(x_distance, L-x_distance)
-        min_y_distance = np.minimum(y_distance, L - y_distance)
-        distance = np.sqrt(min_x_distance**2 + min_y_distance**2)
+        x_dist = np.abs(particles[i, 0] - particles[:, 0])
+        y_dist = np.abs(particles[i, 1] - particles[:, 1])
+        min_x_dist = np.minimum(x_dist, L - x_dist)
+        min_y_dist = np.minimum(y_dist, L - y_dist)
+        distance = np.sqrt(min_x_dist**2 + min_y_dist**2)
         sorted_distance = np.argsort(distance)
         sorted_distance_indices = sorted_distance[0:k+1]
-        sorted_distance_indices = sorted_distance_indices
         particle_indices.append(sorted_distance_indices)
     return particle_indices
 
-
-def update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k):
+def update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k, vision):
     N = len(orientations)
     W = np.random.uniform(-1/2, 1/2, N)
-    neighbours_of_particles = particles_in_radius_knearest(particles, R, L, k)
+    neighbours_of_particles = k_nearest(particles, L, k, vision)
     updated_orientation = np.zeros(N)
     for index in range(N):
         neighbours = neighbours_of_particles[index]
         neighbours_orientation = orientations[neighbours]
-        neighbours_orientation = [neighbours_orientation]
         average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
         updated_orientation[index] = average + eta * W[index] * delta_t
     return updated_orientation
