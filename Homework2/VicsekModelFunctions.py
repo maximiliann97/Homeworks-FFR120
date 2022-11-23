@@ -184,3 +184,36 @@ def particles_in_radius_2(particles, R, L):
         indices = indices[0][0]
         particle_indices.append(indices)
     return particle_indices
+
+
+def particles_in_radius_knearest(particles, R, L, k):
+    N = len(particles)
+    particle_indices = []
+    for i in range(N):
+        x_distance = np.abs(particles[i, 0] - particles[:, 0])
+        y_distance = np.abs(particles[i, 1] - particles[:, 1])
+        min_x_distance = np.minimum(x_distance, L-x_distance)
+        min_y_distance = np.minimum(y_distance, L - y_distance)
+        distance = np.sqrt(min_x_distance**2 + min_y_distance**2)
+        sorted_distance = np.sort(distance)
+        sorted_distance = sorted_distance[0:k+1]
+        for d in sorted_distance:
+            index = np.where(distance == d)
+            particle_indices.append(index)
+    return particle_indices
+
+
+def update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k):
+    N = len(orientations)
+    W = np.random.uniform(-1/2, 1/2, N)
+    neighbours_of_particles = particles_in_radius_knearest(particles, R, L, k)
+    updated_orientation = np.zeros(N)
+    for index in range(N):
+        neighbours = neighbours_of_particles[index][0]
+        neighbours_orientation = orientations[neighbours]
+        if len(neighbours_orientation) == 1:
+            average = neighbours_orientation
+        else:
+            average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
+        updated_orientation[index] = average + eta * W[index] * delta_t
+    return updated_orientation
