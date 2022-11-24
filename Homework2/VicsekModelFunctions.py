@@ -1,8 +1,6 @@
 import numpy as np
 from scipy.spatial import Voronoi, ConvexHull, voronoi_plot_2d
 import matplotlib.pyplot as plt
-import math
-
 
 def generate_particle_positions(N, L, displacement=None):
     particles = np.random.rand(N, 2) * L - L/2
