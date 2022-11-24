@@ -24,9 +24,9 @@ plt.title(f'Initial Config after, R={R}, noise={eta}, N={N}')
 
 for k in K:
     for i in trange(iterations):
+        orientations = functions.update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k, vision)
         velocity = functions.get_velocity(orientations, v)
         particles = functions.update_positions(particles, velocity, delta_t, L)
-        orientations = functions.update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k, vision)
     functions.plot_voronoi(particles, L)
     plt.title(f'Configuration after {iterations} iterations, R={R}, noise={eta}, N={N}, k={k}')
 

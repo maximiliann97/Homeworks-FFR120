@@ -204,7 +204,7 @@ def k_nearest(particles, L, k):
 def update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k, vision):
     N = len(orientations)
     W = np.random.uniform(-1/2, 1/2, N)
-    neighbours_of_particles = k_nearest(particles, L, k, vision)
+    neighbours_of_particles = k_nearest(particles, L, k)
     updated_orientation = np.zeros(N)
     for index in range(N):
         neighbours = neighbours_of_particles[index]
