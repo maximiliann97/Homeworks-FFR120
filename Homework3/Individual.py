@@ -12,6 +12,9 @@ class Individual:
             elif state == 'susceptible':
                 self.state = 'susceptible'
             else:
-                raise
+                raise Exception('State not valid')
+            
+
+
 
 
