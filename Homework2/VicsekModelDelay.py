@@ -6,19 +6,19 @@ from tqdm import trange
 
 #########################################
 # Initialization parameters
-N = 200
-L = 150
+N = 100
+L = 1000
 v = 3
 delta_t = 1
-eta = 0.5
-R = 10
+eta = 0.01
+R = 20
 iterations = 10000
 H = [0, 2, 25]
 #########################################
 
 # Load
-particles = np.load('init_particles_8.8.2.npy')
-orientations = np.load('init_orientation_8.8.2.npy')
+particles = np.load('init_particles_8_8.npy')
+orientations = np.load('init_orientation_8_8.npy')
 
 # Initial plot
 vor = Voronoi(particles)
@@ -42,7 +42,6 @@ velocity = functions.get_velocity(orientations, v)
 orientation_list = [orientations]
 particle_list = [particles]
 
-#Retardness code
 for h in H:
     particle_list = []
     orientation_list = []
@@ -72,13 +71,6 @@ for h in H:
         if i + 1 == 10000:
             particles_10000_h.append(particles)
     if h == 0 or h == 2 or h == 25:
-        fig, ax = plt.subplots()
-        ax.plot(times, global_alignment, label='Global alignment')
-        ax.plot(times, clustering, label='Global clustering')
-        ax.legend([r'$\psi$', r'$c$'])
-        plt.xlabel('t')
-        plt.ylabel(r'$\psi$, $c$')
-        plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
         global_list.append(global_alignment)
         clustering_list.append(clustering)
     mean_global.append(np.mean(global_alignment))
@@ -87,17 +79,17 @@ for h in H:
 
 
 
-# Iterations 1000
-functions.plot_voronoi(particles_1000_h[0], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={0}')
+# # Iterations 1000
+# functions.plot_voronoi(particles_1000_h[0], L)
+# plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={0}')
+#
+# functions.plot_voronoi(particles_1000_h[1], L)
+# plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
-functions.plot_voronoi(particles_1000_h[1], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={2}')
+# functions.plot_voronoi(particles_1000_h[2], L)
+# plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
-functions.plot_voronoi(particles_1000_h[2], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={25}')
-
-# Iterations 10000
+#Iterations 10000
 functions.plot_voronoi(particles_10000_h[0], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={0}')
 
@@ -108,19 +100,11 @@ functions.plot_voronoi(particles_10000_h[2], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 
-fig, ax = plt.subplots()
-ax.plot(times, global_alignment, label='Global alignment')
-ax.plot(times, clustering, label='Global clustering')
-ax.legend([r'$\psi$',r'$c$'])
-plt.xlabel('t')
+fig3, ax4 = plt.subplots()
+ax4.scatter(H, mean_global, label='Global alignment')
+ax4.scatter(H, mean_clustering, label='Global clustering')
+ax4.legend([r'$\psi$', r'$c$'])
+plt.xlabel('h')
 plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
-
-# fig3, ax4 = plt.subplots()
-# ax4.scatter(H, mean_global, label='Global alignment')
-# ax4.scatter(H, mean_clustering, label='Global clustering')
-# ax4.legend([r'$\psi$', r'$c$'])
-# plt.xlabel('h')
-# plt.ylabel(r'$\psi$, $c$')
-# plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}')
 plt.show()

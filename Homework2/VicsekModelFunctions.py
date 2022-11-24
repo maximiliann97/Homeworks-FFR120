@@ -212,3 +212,4 @@ def update_orientation_knearest(particles, orientations, eta, delta_t, R, L, k, 
         average = np.arctan(np.mean(np.sin(neighbours_orientation))/np.mean(np.cos(neighbours_orientation)))
         updated_orientation[index] = average + eta * W[index] * delta_t
     return updated_orientation
+
