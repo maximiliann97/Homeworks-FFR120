@@ -6,19 +6,19 @@ from tqdm import trange
 
 #########################################
 # Initialization parameters
-N = 100
-L = 1000
+N = 200
+L = 150
 v = 3
 delta_t = 1
-eta = 0.4
-R = 20
+eta = 0.5
+R = 10
 iterations = 10000
 H = [0, 2, 25]
 #########################################
 
 # Load
-particles = np.load('init_particles_8_8.npy')
-orientations = np.load('init_orientation_8_8.npy')
+particles = np.load('init_particles_8.8.2.npy')
+orientations = np.load('init_orientation_8.8.2.npy')
 
 # Initial plot
 vor = Voronoi(particles)
@@ -46,8 +46,8 @@ particle_list = [particles]
 for h in H:
     particle_list = []
     orientation_list = []
-    particles = np.load('init_particles_8_8.npy')
-    orientations = np.load('init_orientation_8_8.npy')
+    particles = np.load('init_particles_8.8.2.npy')
+    orientations = np.load('init_orientation_8.8.2.npy')
     velocity = functions.get_velocity(orientations, v)
     orientation_list = [orientations]
     particle_list = [particles]
@@ -72,6 +72,13 @@ for h in H:
         if i + 1 == 10000:
             particles_10000_h.append(particles)
     if h == 0 or h == 2 or h == 25:
+        fig, ax = plt.subplots()
+        ax.plot(times, global_alignment, label='Global alignment')
+        ax.plot(times, clustering, label='Global clustering')
+        ax.legend([r'$\psi$', r'$c$'])
+        plt.xlabel('t')
+        plt.ylabel(r'$\psi$, $c$')
+        plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
         global_list.append(global_alignment)
         clustering_list.append(clustering)
     mean_global.append(np.mean(global_alignment))
@@ -100,37 +107,20 @@ plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h
 functions.plot_voronoi(particles_10000_h[2], L)
 plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
-fig, ax1 = plt.subplots()
-ax1.plot(times, global_list[0], label='Global alignment')
-ax1.plot(times, clustering_list[0], label='Global clustering')
-ax1.legend([r'$\psi$',r'$c$'])
+
+fig, ax = plt.subplots()
+ax.plot(times, global_alignment, label='Global alignment')
+ax.plot(times, clustering, label='Global clustering')
+ax.legend([r'$\psi$',r'$c$'])
 plt.xlabel('t')
 plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={0}')
+plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
 
-
-fig1, ax2 = plt.subplots()
-ax2.plot(times, global_list[1], label='Global alignment')
-ax2.plot(times, clustering_list[1], label='Global clustering')
-ax2.legend([r'$\psi$',r'$c$'])
-plt.xlabel('t')
-plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={2}')
-
-
-fig2, ax3 = plt.subplots()
-ax3.plot(times, global_list[2], label='Global alignment')
-ax3.plot(times, clustering_list[2], label='Global clustering')
-ax3.legend([r'$\psi$',r'$c$'])
-plt.xlabel('t')
-plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={25}')
-
-fig3, ax4 = plt.subplots()
-ax4.scatter(H, mean_global, label='Global alignment')
-ax4.scatter(H, mean_clustering, label='Global clustering')
-ax4.legend([r'$\psi$', r'$c$'])
-plt.xlabel('h')
-plt.ylabel(r'$\psi$, $c$')
-plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}')
+# fig3, ax4 = plt.subplots()
+# ax4.scatter(H, mean_global, label='Global alignment')
+# ax4.scatter(H, mean_clustering, label='Global clustering')
+# ax4.legend([r'$\psi$', r'$c$'])
+# plt.xlabel('h')
+# plt.ylabel(r'$\psi$, $c$')
+# plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}')
 plt.show()
