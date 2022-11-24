@@ -72,13 +72,6 @@ for h in H:
         if i + 1 == 10000:
             particles_10000_h.append(particles)
     if h == 0 or h == 2 or h == 25:
-        fig, ax = plt.subplots()
-        ax.plot(times, global_alignment, label='Global alignment')
-        ax.plot(times, clustering, label='Global clustering')
-        ax.legend([r'$\psi$', r'$c$'])
-        plt.xlabel('t')
-        plt.ylabel(r'$\psi$, $c$')
-        plt.title(f'Iterations={iterations}. Parameters: R={R}, noise={eta}, N={N}, h={h}')
         global_list.append(global_alignment)
         clustering_list.append(clustering)
     mean_global.append(np.mean(global_alignment))
@@ -88,24 +81,24 @@ for h in H:
 
 
 # Iterations 1000
-functions.plot_voronoi(particles_1000_h[0], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={0}')
+#functions.plot_voronoi(particles_1000_h[0], L)
+#plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={0}')
 
-functions.plot_voronoi(particles_1000_h[1], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={2}')
+#functions.plot_voronoi(particles_1000_h[1], L)
+#plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
-functions.plot_voronoi(particles_1000_h[2], L)
-plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={25}')
+#functions.plot_voronoi(particles_1000_h[2], L)
+#plt.title(f'Configuration after {1000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 # Iterations 10000
-functions.plot_voronoi(particles_10000_h[0], L)
-plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={0}')
+#functions.plot_voronoi(particles_10000_h[0], L)
+#plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={0}')
 
-functions.plot_voronoi(particles_10000_h[1], L)
-plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={2}')
+#functions.plot_voronoi(particles_10000_h[1], L)
+#plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={2}')
 
-functions.plot_voronoi(particles_10000_h[2], L)
-plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={25}')
+#functions.plot_voronoi(particles_10000_h[2], L)
+#plt.title(f'Configuration after {10000} iterations. R={R}, noise={eta}, N={N}, h={25}')
 
 
 fig, ax = plt.subplots()
