@@ -6,9 +6,10 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01
 move_prob = 0.8
-Beta = [0.6]
-gamma = 0.01
-mu = 0.05
+Beta = [0.6]    # Infection probability
+gamma = 0.01    # Recover probability
+mu = 0.05       # Death probability
+alpha = 0.01    # Re susceptible probability
 
 # Initialization
 infected_overtime = []
@@ -26,9 +27,11 @@ for beta in Beta:
         sir.walk(susceptible, move_prob, lattice)
         sir.walk(infected, move_prob, lattice)
         sir.walk(recovered, move_prob, lattice)
+
         infected, susceptible = sir.check_infected(infected, susceptible, beta)
         recovered, infected = sir.recovery(infected, recovered, gamma)
-        diseased, infected = sir.death(diseased, infected, mu)
+        # diseased, infected = sir.death(diseased, infected, mu)         # Uncomment dependent on exercise
+        # susceptible, recovered = sir.re_susceptible(susceptible, recovered, alpha)   # Uncomment dependent on exercise
 
         susceptible_overtime.append(len(susceptible))
         infected_overtime.append(len(infected))
@@ -41,4 +44,5 @@ for beta in Beta:
     R_list.append(len(recovered)/len(susceptible))
 
 sir.plot_sir(susceptible_overtime, infected_overtime, recovered_overtime, diseased_overtime, timestep)
+#plt.title(f"alpha = {}")
 plt.show()
