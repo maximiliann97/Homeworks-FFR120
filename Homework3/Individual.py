@@ -3,7 +3,7 @@ import numpy as np
 
 class Individual:
     def __init__(self, state: str, lattice: int):
-        if isinstance(lattice, int):
+        if isinstance(lattice+1, int):
             self.position = np.random.randint(lattice, size=2)
             self.counter = 0
         else:
@@ -45,6 +45,12 @@ class Individual:
             self.position[0] += 1
         if direction == 'left' and self.position[0] > lattice:
             self.position[0] -= 1
+
+    def update_position(self, position: np.ndarray):
+        if isinstance(position, np.ndarray):
+            self.position = position
+        else:
+            raise Exception('Has to be ndarray')
 
 
 
