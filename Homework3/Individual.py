@@ -39,11 +39,11 @@ class Individual:
     def move(self, direction, lattice):
         if direction == 'up' and self.position[1] < lattice:
             self.position[1] += 1
-        if direction == 'down' and self.position[1] > lattice:
+        if direction == 'down' and self.position[1] > 0:
             self.position[1] -= 1
         if direction == 'right' and self.position[0] < lattice:
             self.position[0] += 1
-        if direction == 'left' and self.position[0] > lattice:
+        if direction == 'left' and self.position[0] > 0:
             self.position[0] -= 1
 
     def update_position(self, position: np.ndarray):
