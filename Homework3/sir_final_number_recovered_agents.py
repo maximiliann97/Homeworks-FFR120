@@ -23,7 +23,7 @@ susceptible_overtime = []
 diseased_overtime = []
 
 
-for i, gamma in enumerate(Gamma):
+for i, gamma in enumerate(tqdm(Gamma)):
     nrRecovered_list = []
     for beta in tqdm(Beta):
         timestep = 0
@@ -42,11 +42,6 @@ for i, gamma in enumerate(Gamma):
             infected_overtime.append(len(infected))
             recovered_overtime.append(len(recovered))
             diseased_overtime.append(len(diseased))
-
-            # timestep += 1
-            # print(timestep)
-            # print(f'infected: {len(infected)}')
-        print(len(recovered))
         nrRecovered_list.append(len(recovered))
     if gamma == 0.01:
         time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
