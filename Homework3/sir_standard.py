@@ -8,8 +8,8 @@ infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
 beta = 0.25            # Infection probability
 gamma = 0.01         # Recover probability
+mu = 0.5             # Mortality probability
 alpha = None          # Re-susceptible probability
-mu = None             # Mortality probability
 
 # Initialization
 alpha_unicode = "\u03B1"
@@ -35,6 +35,7 @@ while len(infected) > 0:
 
     infected, susceptible = sir.check_infected(infected, susceptible, beta)
     recovered, infected = sir.recovery(infected, recovered, gamma)
+    diseased, infected = sir.death(diseased, infected, mu)
 
     susceptible_overtime.append(len(susceptible))
     infected_overtime.append(len(infected))
