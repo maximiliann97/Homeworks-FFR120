@@ -37,7 +37,7 @@ def walk(object_list, prob, lattice):
     for obj in object_list:
         random_walk(obj, prob, lattice)
 
-
+"""
 def check_infected(infected, susceptible, beta):
     for infectant in infected:
         r = np.random.rand()
@@ -55,9 +55,9 @@ def check_infected(infected, susceptible, beta):
                     infected.append(s)
                     susceptible.remove(s)
     return infected, susceptible
-
-
 """
+
+
 def check_infected(infected, susceptible, beta):
     for infectant in infected:
         r = np.random.rand()
@@ -68,7 +68,6 @@ def check_infected(infected, susceptible, beta):
                     infected.append(s)
                     susceptible.remove(s)
     return infected, susceptible
-"""
 
 
 def recovery(infected, recovered, gamma):
