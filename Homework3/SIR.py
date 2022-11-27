@@ -38,8 +38,6 @@ def walk(object_list, prob, lattice):
         random_walk(obj, prob, lattice)
 
 """
-Spreading the disease in the neighbourhood
-
 def check_infected(infected, susceptible, beta):
     for infectant in infected:
         r = np.random.rand()
@@ -70,7 +68,6 @@ def check_infected(infected, susceptible, beta):
                     infected.append(s)
                     susceptible.remove(s)
     return infected, susceptible
-
 
 
 def recovery(infected, recovered, gamma):

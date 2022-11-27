@@ -25,7 +25,7 @@ diseased_overtime = []
 
 for i, gamma in enumerate(tqdm(Gamma)):
     nrRecovered_list = []
-    for beta in Beta:
+    for beta in tqdm(Beta):
         timestep = 0
         susceptible, infected = sir.initialize_world(lattice, nAgents, infection_rate)
         recovered = []
@@ -42,11 +42,6 @@ for i, gamma in enumerate(tqdm(Gamma)):
             infected_overtime.append(len(infected))
             recovered_overtime.append(len(recovered))
             diseased_overtime.append(len(diseased))
-
-            # timestep += 1
-            # print(timestep)
-            # print(f'infected: {len(infected)}')
-        print(f'Amount of recovered: {len(recovered)}')
         nrRecovered_list.append(len(recovered))
     if gamma == 0.01:
         time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
