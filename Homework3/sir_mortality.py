@@ -7,9 +7,9 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01
 move_prob = 0.8
-beta = 0.6                           # Infection probability
+beta = 0.9                           # Infection probability
 gamma = [0.01, 0.02]                 # Recover probability
-mu = np.linspace(0.001, 0.2, 20)     # Death probability
+mu = np.linspace(0, 1, 30)     # Death probability
 
 # Initialization
 alpha_unicode = "\u03B1"

@@ -6,8 +6,8 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
-beta = 0.9            # Infection probability
-gamma = 0.02         # Recover probability
+beta = 0.25            # Infection probability
+gamma = 0.01         # Recover probability
 alpha = None          # Re-susceptible probability
 mu = None             # Mortality probability
 
