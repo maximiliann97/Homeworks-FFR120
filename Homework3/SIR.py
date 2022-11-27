@@ -4,15 +4,8 @@ import numpy as np
 
 
 def initialize_world(lattice, nAgents, infection_rate):
-    nInfected = 0
-    nSusceptible = 0
-    for _ in range(nAgents):
-        r = np.random.rand()
-        if r < infection_rate:
-            nInfected += 1
-        else:
-            nSusceptible += 1
-
+    nInfected = int(nAgents * infection_rate)
+    nSusceptible = int(nAgents * 1-infection_rate)
     susceptible = [Individual("susceptible", lattice) for _ in range(nSusceptible)]
     infected = [Individual("infected", lattice) for _ in range(nInfected)]
 

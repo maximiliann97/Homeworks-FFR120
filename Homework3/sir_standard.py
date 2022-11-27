@@ -1,15 +1,13 @@
 import matplotlib.pyplot as plt
 import SIR as sir
-import numpy as np
-from datetime import datetime
 
 # Parameters
 lattice = 100
 nAgents = 1000
 infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
-beta = 0.7            # Infection probability
-gamma = 0.01          # Recover probability
+beta = 0.9            # Infection probability
+gamma = 0.02         # Recover probability
 alpha = None          # Re-susceptible probability
 mu = None             # Mortality probability
 
@@ -27,6 +25,7 @@ timestep = 0
 susceptible, infected = sir.initialize_world(lattice, nAgents, infection_rate)
 recovered = []
 diseased = []
+infected_population = []
 
 
 while len(infected) > 0:
@@ -45,7 +44,6 @@ while len(infected) > 0:
     timestep += 1
     print(timestep)
     print(f'infected: {len(infected)}')
-
 
 sir.plot_sir(susceptible_overtime, infected_overtime, recovered_overtime, diseased_overtime, gamma, move_prob, beta, mu, alpha)
 plt.show()
