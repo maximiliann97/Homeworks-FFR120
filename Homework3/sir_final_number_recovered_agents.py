@@ -43,18 +43,18 @@ for i, gamma in enumerate(tqdm(Gamma)):
             recovered_overtime.append(len(recovered))
             diseased_overtime.append(len(diseased))
 
-            timestep += 1
-            print(timestep)
-            print(f'infected: {len(infected)}')
+            # timestep += 1
+            # print(timestep)
+            # print(f'infected: {len(infected)}')
         print(f'Amount of recovered: {len(recovered)}')
         nrRecovered_list.append(len(recovered))
     if gamma == 0.01:
-        time_now = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+        time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         nrRecovered_array = np.array(nrRecovered_list)
         np.save(time_now + f'R_inf_gamma={Gamma[0]}', nrRecovered_array)
         plt.plot(Beta, nrRecovered_list, "o", color="blue", markersize=4)
     if gamma == 0.02:
-        time_now = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+        time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         nrRecovered_array = np.array(nrRecovered_list)
         np.save(time_now + f'R_inf_gamma={Gamma[1]}', nrRecovered_array)
         plt.plot(Beta, nrRecovered_list, "o", color="green", markersize=4)
@@ -64,3 +64,4 @@ for i, gamma in enumerate(tqdm(Gamma)):
 plt.legend([f"{gamma_unicode}={Gamma[0]}", f"{gamma_unicode}={Gamma[1]}"])
 plt.xlabel(f'{beta_unicode}')
 plt.title(f"Final number of recovered agents as a function of the infection rate {beta_unicode}")
+plt.show()
