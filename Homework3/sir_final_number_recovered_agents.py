@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import SIR as sir
 import numpy as np
 from datetime import datetime
+from tqdm import tqdm
 
 # Parameters
 lattice = 100
@@ -22,7 +23,7 @@ susceptible_overtime = []
 diseased_overtime = []
 
 
-for i, gamma in enumerate(Gamma):
+for i, gamma in enumerate(tqdm(Gamma)):
     nrRecovered_list = []
     for beta in Beta:
         timestep = 0
@@ -45,6 +46,7 @@ for i, gamma in enumerate(Gamma):
             timestep += 1
             print(timestep)
             print(f'infected: {len(infected)}')
+        print(f'Amount of recovered: {len(recovered)}')
         nrRecovered_list.append(len(recovered))
     if gamma == 0.01:
         time_now = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
