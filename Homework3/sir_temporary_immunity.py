@@ -8,9 +8,9 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
-beta = 0.1              # Infection probability
+beta = 0.2              # Infection probability
 gamma = 0.01            # Recover probability
-alpha = 0.05            # Re-susceptible probability
+alpha = 0.005            # Re-susceptible probability
 mu = None
 
 # Initialization
@@ -29,13 +29,13 @@ diseased = []
 susceptible, infected = sir.initialize_world(lattice, nAgents, infection_rate)
 
 
-while len(infected) > 0:
+while len(infected) > 0 and timestep < 10000:
     sir.walk(susceptible, move_prob, lattice)
     sir.walk(infected, move_prob, lattice)
     sir.walk(recovered, move_prob, lattice)
 
     infected, susceptible = sir.check_infected(infected, susceptible, beta)
-    recovered, infected = sir.recovery(infected, recovered, g)
+    recovered, infected = sir.recovery(infected, recovered, gamma)
     susceptible, recovered = sir.re_susceptible(susceptible, recovered, alpha)
 
     susceptible_overtime.append(len(susceptible))

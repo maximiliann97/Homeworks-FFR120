@@ -84,12 +84,12 @@ def death(diseased, infected, mu):
 
 
 def re_susceptible(susceptible, recovered, alpha):
-    for s in susceptible:
+    for rec in recovered:
         r = np.random.rand()
         if r < alpha:
-            s.update_state("susceptible")
-            susceptible.append(s)
-            recovered.remove(s)
+            rec.update_state("susceptible")
+            susceptible.append(rec)
+            recovered.remove(rec)
     return susceptible, recovered
 
 
