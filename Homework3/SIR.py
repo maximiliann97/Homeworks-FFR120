@@ -5,15 +5,15 @@ import numpy as np
 
 def initialize_world(lattice, nAgents, infection_rate):
     nInfected = 0
-    nSuspectible = 0
+    nSusceptible = 0
     for _ in range(nAgents):
         r = np.random.rand()
         if r < infection_rate:
             nInfected += 1
         else:
-            nSuspectible += 1
+            nSusceptible += 1
 
-    susceptible = [Individual("susceptible", lattice) for _ in range(nSuspectible)]
+    susceptible = [Individual("susceptible", lattice) for _ in range(nSusceptible)]
     infected = [Individual("infected", lattice) for _ in range(nInfected)]
 
     return susceptible, infected
@@ -33,23 +33,24 @@ def random_walk(individual, move_prob, lattice):
             individual.move('left', lattice)
 
 
-def walk(list, prob, lattice):
-    for object in list:
-        random_walk(object, prob, lattice)
+def walk(object_list, prob, lattice):
+    for obj in object_list:
+        random_walk(obj, prob, lattice)
 
 
 def check_infected(infected, susceptible, beta):
     for infectant in infected:
         r = np.random.rand()
-        to_the_right = np.array([infectant.position[0] + 1, infectant.position[1]])
-        to_the_left = np.array([infectant.position[0] - 1, infectant.position[1]])
-        over = np.array([infectant.position[0], infectant.position[1] + 1])
-        under = np.array([infectant.position[0], infectant.position[1] - 1])
-        for s in susceptible:
-            if np.array_equal(s.position, to_the_right) or np.array_equal(s.position, to_the_left) or \
-                    np.array_equal(s.position, over) or np.array_equal(s.position, under) or\
-                    np.array_equal(s.position, infectant.position):
-                if r < beta:
+        if r < beta:
+            to_the_right = np.array([infectant.position[0] + 1, infectant.position[1]])
+            to_the_left = np.array([infectant.position[0] - 1, infectant.position[1]])
+            over = np.array([infectant.position[0], infectant.position[1] + 1])
+            under = np.array([infectant.position[0], infectant.position[1] - 1])
+            for s in susceptible:
+                if np.array_equal(s.position, to_the_right) or np.array_equal(s.position, to_the_left) or \
+                            np.array_equal(s.position, over) or np.array_equal(s.position, under)\
+                            or np.array_equal(s.position, infectant.position):
+
                     s.update_state('infected')
                     infected.append(s)
                     susceptible.remove(s)
@@ -100,7 +101,7 @@ def re_susceptible(susceptible, recovered, alpha):
     return susceptible, recovered
 
 
-def plot_sir(susceptible, infected, recovered, diseased, gamma, d, beta, alpha, mu):
+def plot_sir(susceptible, infected, recovered, diseased, gamma, d, beta, mu=None, alpha=None):
     alpha_unicode = "\u03B1"
     gamma_unicode = "\u03B3"
     beta_unicode = "\u03B2"
@@ -136,14 +137,3 @@ def plot_lattice(infected, susceptible, recovered, diseased):
     plt.legend(
         ["Infected", "Susceptible", "Recovered", "Diseased"])
     plt.title(f"#Inf = {len(infected)} #Sus = {len(susceptible)} #Rec = {len(recovered)} #Dis = {len(diseased)}")
-
-
-def plot_R_beta(R, beta, gamma):
-    beta_unicode = "\u03B2"
-    gamma_unicode = "\u03B3"
-    plt.plot(beta, R, "o", color="blue", markersize=4)
-    plt.legend(
-        [f"{gamma_unicode}={gamma}"])
-    plt.ylabel('R')
-    plt.xlabel(f'{beta_unicode}')
-    plt.title(f"Final number of recovered agents as a function of the infection rate {beta_unicode}")
