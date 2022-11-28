@@ -11,7 +11,7 @@ beta_gamma_2 = Beta/Gamma[1]
 
 average_1 = np.load('2022-11-28-09-38-12R_inf_gamma=0.01.npy')
 average_2 = np.load('2022-11-28-09-44-56R_inf_gamma=0.02.npy')
-
+print(average_2)
 # Function of Beta / gamma
 plt.plot(beta_gamma_1, average_1, "o", color="blue", markersize=4)
 plt.plot(beta_gamma_2, average_2, "o", color="green", markersize=4)
