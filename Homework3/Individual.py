@@ -6,7 +6,7 @@ class Individual:
         if isinstance(lattice+1, int):
             self.position = np.random.randint(lattice, size=2)
         else:
-            raise Exception('Lattice not valid')
+            raise ValueError('Lattice not valid')
 
         if state == 'recovered':
             self.state = 'recovered'
@@ -17,7 +17,7 @@ class Individual:
         elif state == 'susceptible':
             self.state = 'susceptible'
         else:
-            raise Exception('State not valid')
+            raise TypeError('State not valid')
 
     def update_state(self, state: str):
         if state == 'recovered':
@@ -29,7 +29,7 @@ class Individual:
         elif state == 'susceptible':
             self.state = 'susceptible'
         else:
-            raise Exception('State not valid')
+            raise TypeError('State not valid')
 
     def move(self, direction, lattice):
         if direction == 'up' and self.position[1] < lattice:
@@ -45,7 +45,7 @@ class Individual:
         if isinstance(position, np.ndarray):
             self.position = position
         else:
-            raise Exception('Has to be ndarray')
+            raise TypeError('Has to be ndarray')
 
 
 

@@ -9,7 +9,7 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
-Beta = np.linspace(0.1, 0.9, 9)      # Infection probability
+Beta = np.linspace(0, 1, 20)      # Infection probability
 Gamma = [0.01, 0.02]                # Recover probability
 
 # Initialization
