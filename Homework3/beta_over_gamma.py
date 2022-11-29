@@ -9,9 +9,9 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01               # Initial infection_rate
 move_prob = 0.8
-Beta = np.linspace(0, 1, 20)        # Infection probability
-Gamma = [0.01, 0.02]                # Recover probability
-
+Beta = np.linspace(0.1, 1, 10)        # Infection probability
+# Gamma = [0.01, 0.02]                # Recover probability
+Q = np.linspace(1, 100, 30)
 # Initialization
 alpha_unicode = "\u03B1"
 gamma_unicode = "\u03B3"
@@ -22,14 +22,14 @@ recovered_overtime = []
 susceptible_overtime = []
 diseased_overtime = []
 
-
-for i, gamma in enumerate(tqdm(Gamma)):
+for q in tqdm(Q):
     nrRecovered_list = []
     for beta in tqdm(Beta):
         timestep = 0
         susceptible, infected = sir.initialize_world(lattice, nAgents, infection_rate)
         recovered = []
         diseased = []
+        gamma = beta/q
         while len(infected) > 0:
             sir.walk(susceptible, move_prob, lattice)
             sir.walk(infected, move_prob, lattice)
@@ -43,20 +43,7 @@ for i, gamma in enumerate(tqdm(Gamma)):
             recovered_overtime.append(len(recovered))
             diseased_overtime.append(len(diseased))
         nrRecovered_list.append(len(recovered))
-    if gamma == 0.01:
-        time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        nrRecovered_array = np.array(nrRecovered_list)
-        np.save(time_now + f'R_inf_gamma={Gamma[0]}', nrRecovered_array)
-        plt.plot(Beta, nrRecovered_list, "o", color="blue", markersize=4)
-    if gamma == 0.02:
-        time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        nrRecovered_array = np.array(nrRecovered_list)
-        np.save(time_now + f'R_inf_gamma={Gamma[1]}', nrRecovered_array)
-        plt.plot(Beta, nrRecovered_list, "o", color="green", markersize=4)
-
-
-# Plot final recovered as a function of infection rate
-plt.legend([f"{gamma_unicode}={Gamma[0]}", f"{gamma_unicode}={Gamma[1]}"])
-plt.xlabel(f'{beta_unicode}')
-plt.title(f"Final number of recovered agents as a function of the infection rate {beta_unicode}")
-plt.show()
+    time_now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    nrRecovered_array = np.array(nrRecovered_list)
+    #np.save('arrays/' + time_now + f' R_inf,beta_over_gamma,Q={q}', nrRecovered_array)
+    np.savetxt('arrays/' + time_now + f' R_inf,beta_over_gamma,Q={q}.csv', nrRecovered_array, delimiter=",")
