@@ -28,7 +28,8 @@ average_1 = [10  16  91 169 339 447 712 691 877 872 878 899 911 965 962 963 949 
 average_2 = [10  21  20  46  65  66  97  59 172 287 387 353 466 447 473 589 423 580 488 534];
 
 average_1 = reshape(average_1, [4, 5]);
-imagesc([Beta(1), Beta(end)], [beta_gamma_1(1), beta_gamma_1(end)], average_1)
+average_1 = flip(average_1,1);
+imagesc([Beta(1), Beta(end)], [beta_gamma_1(1), beta_gamma_1(end)], average_1')
 colorbar
 xlabel('\beta')
 ylabel('\beta / \gamma')
