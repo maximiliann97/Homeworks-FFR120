@@ -10,8 +10,8 @@ nAgents = 1000
 infection_rate = 0.01               # Initial infection_rate
 move_prob = 0.8
 Beta = np.linspace(0.1, 1, 10)        # Infection probability
-# Gamma = [0.01, 0.02]                # Recover probability
 Q = np.linspace(1, 100, 30)
+
 # Initialization
 alpha_unicode = "\u03B1"
 gamma_unicode = "\u03B3"
