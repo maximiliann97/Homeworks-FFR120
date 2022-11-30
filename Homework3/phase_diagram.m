@@ -22,7 +22,7 @@ beta = linspace(0.1, 1, 20);
 Q = linspace(10, 100, 30);
 
 
-imagesc([beta(2), beta(end)], [Q(2), Q(end-2)], values)
+imagesc([beta(1), beta(end)], [Q(1), Q(end)], values)
 colorbar
 xlabel('\beta')
 ylabel('\beta / \gamma')
