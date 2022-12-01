@@ -109,16 +109,6 @@ def revision(comp_lattice, lattice):
             neighbours = np.array([self, left, right, down, up])
             index = np.argmin(neighbours)
 
-            # indices = np.where(neighbours == neighbours.min())
-            # indices = indices[0]
-            #
-            # if indices[0] == 0 and len(indices) != 5:
-            #     indices = indices[1:len(indices)]
-            #
-            # if len(indices) == 2 or len(indices) == 3 or len(indices) == 4:
-            #     k = np.random.randint(0, len(indices))
-            #     index = indices[k]
-
             if index == 1:
                 if j - 1 == -1:
                     updated_lattice[i, j] = lattice[i, L-1]
