@@ -38,6 +38,9 @@ def initialize_strategies(L, nDefectors, N):
     lattice = N * np.ones([L, L]).astype(int)
     if nDefectors == 1:
         lattice[L//2, L//2] = 0
+    if nDefectors == 2:
+        lattice[L // 3, 2*L // 3] = 0
+        lattice[2*L // 3, L // 3] = 0
     return lattice
 
 
@@ -47,22 +50,22 @@ def competition(lattice, N, R, S, P):
     for i in range(L):
         for j in range(L):
             if j - 1 == -1:
-                left = years(lattice[i, j], lattice[i, j], N, R, S , P)
+                left = years(lattice[i, j], lattice[i, L-1], N, R, S, P)
             else:
                 left = years(lattice[i, j], lattice[i, j-1], N, R, S, P)
 
             if j + 2 == L + 1:
-                right = years(lattice[i, j], lattice[i, j], N, R, S, P)
+                right = years(lattice[i, j], lattice[i, 0], N, R, S, P)
             else:
                 right = years(lattice[i, j], lattice[i, j+1], N, R, S, P)
 
             if i + 2 == L + 1:
-                down = years(lattice[i, j], lattice[i, j], N, R, S, P)
+                down = years(lattice[i, j], lattice[0, j], N, R, S, P)
             else:
                 down = years(lattice[i, j], lattice[i+1, j], N, R, S, P)
 
             if i - 1 == -1:
-                up = years(lattice[i, j], lattice[i, j], N, R, S, P)
+                up = years(lattice[i, j], lattice[L-1, j], N, R, S, P)
             else:
                 up = years(lattice[i, j], lattice[i-1, j], N, R, S, P)
             comp_lattice[i, j] = left + right + down + up
@@ -86,12 +89,12 @@ def revision(comp_lattice, lattice):
                 right = comp_lattice[i, j+1]
 
             if i + 1 == L:
-                down = comp_lattice[L-1, j]
+                down = comp_lattice[0, j]
             else:
                 down = comp_lattice[i+1, j]
 
             if i == 0:
-                up = comp_lattice[0, j]
+                up = comp_lattice[L-1, j]
             else:
                 up = comp_lattice[i-1, j]
             self = comp_lattice[i, j]
@@ -100,25 +103,25 @@ def revision(comp_lattice, lattice):
 
             if index == 0:
                 if j - 1 == -1:
-                    updated_lattice[i, j] = lattice[i, j]
+                    updated_lattice[i, j] = lattice[i, L-1]
                 else:
                     updated_lattice[i, j] = lattice[i, j-1]
 
             elif index == 1:
                 if j + 2 == L + 1:
-                    updated_lattice[i, j] = lattice[i, j]
+                    updated_lattice[i, j] = lattice[i, 0]
                 else:
                     updated_lattice[i, j] = lattice[i, j+1]
 
             elif index == 2:
                 if i + 2 == L + 1:
-                    updated_lattice[i, j] = lattice[i, j]
+                    updated_lattice[i, j] = lattice[0, j]
                 else:
                     updated_lattice[i, j] = lattice[i+1, j]
 
             elif index == 3:
                 if i - 1 == -1:
-                    updated_lattice[i, j] = lattice[i, j]
+                    updated_lattice[i, j] = lattice[L-1, j]
                 else:
                     updated_lattice[i, j] = lattice[i-1, j]
             else:

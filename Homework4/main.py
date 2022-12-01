@@ -10,7 +10,7 @@ S = 1.5
 P = 1
 L = 30
 nDefec = 1
-timesteps = 2
+timesteps = 20
 
 init_lattice = fun.initialize_strategies(L, nDefec, N)
 updated_lattice = init_lattice
@@ -18,6 +18,7 @@ updated_lattice = init_lattice
 for t in range(timesteps):
     comp_lattice = fun.competition(updated_lattice, N, R, S, P)
     updated_lattice = fun.revision(comp_lattice, updated_lattice)
+
 
 plt.imshow(updated_lattice, cmap='RdYlBu')
 plt.axis('off')
