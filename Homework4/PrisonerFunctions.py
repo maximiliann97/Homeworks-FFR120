@@ -1,5 +1,4 @@
 import numpy as np
-from math import inf
 
 
 def years(m, n, N, R, S, P):
@@ -41,6 +40,15 @@ def initialize_strategies(L, nDefectors, N):
     if nDefectors == 2:
         lattice[L // 3, 2*L // 3] = 0
         lattice[2*L // 3, L // 3] = 0
+    if nDefectors == 3:
+        lattice[L//2, L//2] = 0
+        lattice[L // 4, 3*L // 4] = 0
+        lattice[3*L // 4, L // 4] = 0
+    if nDefectors == 4:
+        lattice[L//5, 4*L//5] = 0
+        lattice[2*L//5, 3*L//5] = 0
+        lattice[3*L//5, 2*L//5] = 0
+        lattice[4*L//5, L//5] = 0
     return lattice
 
 
@@ -69,12 +77,11 @@ def competition(lattice, N, R, S, P):
             else:
                 up = years(lattice[i, j], lattice[i-1, j], N, R, S, P)
             comp_lattice[i, j] = left + right + down + up
-
     return comp_lattice
 
 
 def revision(comp_lattice, lattice):
-    L = len(comp_lattice)
+    L = len(lattice)
     updated_lattice = lattice
     for i in range(L):
         for j in range(L):
@@ -97,29 +104,40 @@ def revision(comp_lattice, lattice):
                 up = comp_lattice[L-1, j]
             else:
                 up = comp_lattice[i-1, j]
+
             self = comp_lattice[i, j]
-            neighbours = [left, right, down, up, self]
+            neighbours = np.array([self, left, right, down, up])
             index = np.argmin(neighbours)
 
-            if index == 0:
+            # indices = np.where(neighbours == neighbours.min())
+            # indices = indices[0]
+            #
+            # if indices[0] == 0 and len(indices) != 5:
+            #     indices = indices[1:len(indices)]
+            #
+            # if len(indices) == 2 or len(indices) == 3 or len(indices) == 4:
+            #     k = np.random.randint(0, len(indices))
+            #     index = indices[k]
+
+            if index == 1:
                 if j - 1 == -1:
                     updated_lattice[i, j] = lattice[i, L-1]
                 else:
                     updated_lattice[i, j] = lattice[i, j-1]
 
-            elif index == 1:
+            elif index == 2:
                 if j + 2 == L + 1:
                     updated_lattice[i, j] = lattice[i, 0]
                 else:
                     updated_lattice[i, j] = lattice[i, j+1]
 
-            elif index == 2:
+            elif index == 3:
                 if i + 2 == L + 1:
                     updated_lattice[i, j] = lattice[0, j]
                 else:
                     updated_lattice[i, j] = lattice[i+1, j]
 
-            elif index == 3:
+            elif index == 4:
                 if i - 1 == -1:
                     updated_lattice[i, j] = lattice[L-1, j]
                 else:
