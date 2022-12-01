@@ -2,44 +2,42 @@ import numpy as np
 from math import inf
 
 
-def years(n, m, N, R, S, P):
+def years(m, n, N, R, S, P):
     T = 0
     years_in_prison = 0
 
-    if n == 0:
-        player_A = [1]*N
-
-    else:
-        player_A = [0]*n + [1]*(N-n)
-
     if m == 0:
-        player_B = [1]*N
-
+        player_A = [0]*N
     else:
-        player_B = [0]*m + [1]*(N-m)
+        player_A = [1]*m + [0]*(N-m)
+
+    if n == 0:
+        player_B = [0]*N
+    else:
+        player_B = [1]*n + [0]*(N-n)
 
     for i in range(N):
-        if player_A[i] == 0 and player_B[i] == 0:
+        if player_A[i] == 1 and player_B[i] == 1:   # Both cooperates
             years_in_prison = years_in_prison + R
 
-        if player_A[i] == 0 and player_B[i] == 1:
-            years_in_prison = years_in_prison + S
-            player_A = [0]*(i+1) + [1]*(N-i+1)
-
-        if player_A[i] == 1 and player_B[i] == 0:
+        if player_A[i] == 0 and player_B[i] == 1:   # A defects, B cooperates
             years_in_prison = years_in_prison + T
-            player_B = [0]*(i+1) + [1]*(N-i+1)
+            player_B = [1]*(i+1) + [0]*(N-i+1)
 
-        if player_A[i] == 1 and player_B[i] == 1:
+        if player_A[i] == 1 and player_B[i] == 0:   # A cooperates, B defects
+            years_in_prison = years_in_prison + S
+            player_A = [1]*(i+1) + [0]*(N-i+1)
+
+        if player_A[i] == 0 and player_B[i] == 0:   # Both defects
             years_in_prison = years_in_prison + P
 
     return years_in_prison
 
 
-def initialize_strategies(L, nDefectors):
-    lattice = np.zeros([L, L]).astype(int)
+def initialize_strategies(L, nDefectors, N):
+    lattice = N * np.ones([L, L]).astype(int)
     if nDefectors == 1:
-        lattice[L//2, L//2] = 1
+        lattice[L//2, L//2] = 0
     return lattice
 
 
@@ -51,22 +49,22 @@ def competition(lattice, N, R, S, P):
             if j - 1 == -1:
                 left = years(lattice[i, j], lattice[i, j], N, R, S , P)
             else:
-                left = years(lattice[i, j-1], lattice[i, j], N, R, S, P)
+                left = years(lattice[i, j], lattice[i, j-1], N, R, S, P)
 
             if j + 2 == L + 1:
                 right = years(lattice[i, j], lattice[i, j], N, R, S, P)
             else:
-                right = years(lattice[i, j+1], lattice[i, j], N, R, S, P)
+                right = years(lattice[i, j], lattice[i, j+1], N, R, S, P)
 
             if i + 2 == L + 1:
                 down = years(lattice[i, j], lattice[i, j], N, R, S, P)
             else:
-                down = years(lattice[i+1, j], lattice[i, j], N, R, S, P)
+                down = years(lattice[i, j], lattice[i+1, j], N, R, S, P)
 
             if i - 1 == -1:
                 up = years(lattice[i, j], lattice[i, j], N, R, S, P)
             else:
-                up = years(lattice[i-1, j], lattice[i, j], N, R, S, P)
+                up = years(lattice[i, j], lattice[i-1, j], N, R, S, P)
             comp_lattice[i, j] = left + right + down + up
 
     return comp_lattice
@@ -74,28 +72,55 @@ def competition(lattice, N, R, S, P):
 
 def revision(comp_lattice, lattice):
     L = len(comp_lattice)
-
+    updated_lattice = lattice
     for i in range(L):
         for j in range(L):
-            if j - 1 == -1:
-                left = inf
+            if j == 0:
+                left = comp_lattice[i, L-1]
             else:
                 left = comp_lattice[i, j-1]
 
-            if i + 2 == L + 1:
-                right = inf
+            if j + 1 == L:
+                right = comp_lattice[i, 0]
             else:
-                right = comp_lattice[i+1, j]
+                right = comp_lattice[i, j+1]
 
-            if i + 2 == L + 1:
-                down = inf
+            if i + 1 == L:
+                down = comp_lattice[L-1, j]
             else:
-                down = comp_lattice[i, j+1]
+                down = comp_lattice[i+1, j]
 
-            if i - 1 == -1:
-                up = inf
+            if i == 0:
+                up = comp_lattice[0, j]
             else:
-                up = comp_lattice[i, j-1]
+                up = comp_lattice[i-1, j]
+            self = comp_lattice[i, j]
+            neighbours = [left, right, down, up, self]
+            index = np.argmin(neighbours)
 
-            if comp_lattice[i, j] < left:
-                
+            if index == 0:
+                if j - 1 == -1:
+                    updated_lattice[i, j] = lattice[i, j]
+                else:
+                    updated_lattice[i, j] = lattice[i, j-1]
+
+            elif index == 1:
+                if j + 2 == L + 1:
+                    updated_lattice[i, j] = lattice[i, j]
+                else:
+                    updated_lattice[i, j] = lattice[i, j+1]
+
+            elif index == 2:
+                if i + 2 == L + 1:
+                    updated_lattice[i, j] = lattice[i, j]
+                else:
+                    updated_lattice[i, j] = lattice[i+1, j]
+
+            elif index == 3:
+                if i - 1 == -1:
+                    updated_lattice[i, j] = lattice[i, j]
+                else:
+                    updated_lattice[i, j] = lattice[i-1, j]
+            else:
+                updated_lattice[i, j] = lattice[i, j]
+    return updated_lattice
