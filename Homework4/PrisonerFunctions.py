@@ -37,39 +37,65 @@ def years(n, m, N, R, S, P):
 
 
 def initialize_strategies(L, nDefectors):
-    lattice = np.zeros([L, L])
+    lattice = np.zeros([L, L]).astype(int)
     if nDefectors == 1:
         lattice[L//2, L//2] = 1
     return lattice
 
 
 def competition(lattice, N, R, S, P):
-
-    for i in lattice:
-        for j in lattice:
-            if 0 < j < len(lattice):
-                right = years(lattice[i, j+1], lattice[i, j], N, R, S, P)
+    L = len(lattice)
+    comp_lattice = np.zeros([L, L])
+    for i in range(L):
+        for j in range(L):
+            if j - 1 == -1:
+                left = years(lattice[i, j], lattice[i, j], N, R, S , P)
+            else:
                 left = years(lattice[i, j-1], lattice[i, j], N, R, S, P)
-            elif j == 0:
+
+            if j + 2 == L + 1:
+                right = years(lattice[i, j], lattice[i, j], N, R, S, P)
+            else:
+                right = years(lattice[i, j+1], lattice[i, j], N, R, S, P)
+
+            if i + 2 == L + 1:
+                down = years(lattice[i, j], lattice[i, j], N, R, S, P)
+            else:
+                down = years(lattice[i+1, j], lattice[i, j], N, R, S, P)
+
+            if i - 1 == -1:
+                up = years(lattice[i, j], lattice[i, j], N, R, S, P)
+            else:
+                up = years(lattice[i-1, j], lattice[i, j], N, R, S, P)
+            comp_lattice[i, j] = left + right + down + up
+
+    return comp_lattice
+
+
+def revision(comp_lattice, lattice):
+    L = len(comp_lattice)
+
+    for i in range(L):
+        for j in range(L):
+            if j - 1 == -1:
                 left = inf
             else:
-                right = inf
+                left = comp_lattice[i, j-1]
 
-            if 0 < i < len(lattice):
-                up = years(lattice[i+1, j], lattice[i, j], N, R, S, P)
-                down = years(lattice[i-1, j], lattice[i, j], N, R, S, P)
-            elif i == 0:
+            if i + 2 == L + 1:
+                right = inf
+            else:
+                right = comp_lattice[i+1, j]
+
+            if i + 2 == L + 1:
                 down = inf
             else:
+                down = comp_lattice[i, j+1]
+
+            if i - 1 == -1:
                 up = inf
+            else:
+                up = comp_lattice[i, j-1]
 
-            if right < lattice[i, j]:
-                lattice[i, j] = 1
-            if left < lattice[i, j]:
-                lattice[i, j] = 1
-            if up < lattice[i, j]:
-                lattice[i, j] = 1
-            if down < lattice[i, j]:
-                lattice[i, j] = 1
-
-    return lattice
+            if comp_lattice[i, j] < left:
+                
