@@ -6,7 +6,7 @@ lattice = 100
 nAgents = 1000
 infection_rate = 0.01   # Initial infection_rate
 move_prob = 0.8
-beta = 0.25            # Infection probability
+beta = 0.26            # Infection probability
 gamma = 0.01         # Recover probability
 mu = 0.5             # Mortality probability
 alpha = None          # Re-susceptible probability
@@ -27,7 +27,6 @@ recovered = []
 diseased = []
 infected_population = []
 
-
 while len(infected) > 0:
     sir.walk(susceptible, move_prob, lattice)
     sir.walk(infected, move_prob, lattice)
@@ -35,7 +34,7 @@ while len(infected) > 0:
 
     infected, susceptible = sir.check_infected(infected, susceptible, beta)
     recovered, infected = sir.recovery(infected, recovered, gamma)
-    diseased, infected = sir.death(diseased, infected, mu)
+    #diseased, infected = sir.death(diseased, infected, mu)
 
     susceptible_overtime.append(len(susceptible))
     infected_overtime.append(len(infected))
@@ -43,8 +42,11 @@ while len(infected) > 0:
     diseased_overtime.append(len(diseased))
 
     timestep += 1
+    if timestep == 1000:
+        sir.plot_lattice(infected, susceptible, recovered, diseased)
+        plt.show()
     print(timestep)
     print(f'infected: {len(infected)}')
 
-sir.plot_sir(susceptible_overtime, infected_overtime, recovered_overtime, diseased_overtime, gamma, move_prob, beta, mu, alpha)
-plt.show()
+#sir.plot_sir(susceptible_overtime, infected_overtime, recovered_overtime, diseased_overtime, gamma, move_prob, beta, mu, alpha)
+#plt.show()
