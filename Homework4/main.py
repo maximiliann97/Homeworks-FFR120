@@ -12,14 +12,14 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = 0.85
+R = 0.6
 S = 1.5
 P = 1
 L = 31
 mu = 0.01
 
-nDefec = 5050
-timesteps = 30
+nDefec = "Any"
+timesteps = 20
 
 lattice = fun.initialize_strategies(L, nDefec, N)
 

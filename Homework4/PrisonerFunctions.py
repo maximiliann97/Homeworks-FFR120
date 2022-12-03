@@ -76,6 +76,13 @@ def initialize_strategies(L, nDefectors, N):
             for j in range(L):
                 if np.random.rand() < 0.5:
                     lattice[i, j] = N
+
+    if nDefectors == "Any":
+        lattice = np.zeros([L, L]).astype(int)
+        for i in range(L):
+            for j in range(L):
+                lattice[i, j] = np.random.randint(N+1)
+
     return lattice
 
 
