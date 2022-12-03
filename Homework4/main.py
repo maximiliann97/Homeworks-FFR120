@@ -15,22 +15,23 @@ N = 7
 R = 0.85
 S = 1.5
 P = 1
-L = 7
+L = 31
 mu = 0.01
 
-nDefec = L*L-9
-timesteps = 20
+nDefec = 5050
+timesteps = 30
 
 lattice = fun.initialize_strategies(L, nDefec, N)
-plt.imshow(lattice, cmap='RdYlBu')
 
 for t in trange(timesteps):
     comp_lattice = fun.competition(lattice, N, R, S, P)
     updated_lattice = fun.revision(comp_lattice, lattice)
-    lattice = updated_lattice
-    # lattice = fun.mutation(lattice, mu, N)
+    lattice = np.copy(updated_lattice)
+    lattice = fun.mutation(lattice, mu, N)
+
 
 plt.imshow(lattice, cmap='RdYlBu')
+plt.colorbar()
 plt.ylabel(f't={timesteps}')
 plt.title(f'{nDefec} initial defectors')
 plt.show()

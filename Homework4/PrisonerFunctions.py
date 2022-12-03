@@ -60,13 +60,13 @@ def initialize_strategies(L, nDefectors, N):
 
     if nDefectors == L*L-9:
         lattice = np.zeros([L, L]).astype(int)
-        # lattice[(L // 2) - 1, (L // 2) - 1] = N
-        # lattice[(L // 2) - 1, (L // 2)] = N
-        # lattice[(L // 2) - 1, (L // 2) + 1] = N
-        # lattice[L // 2, L // 2 - 1] = N
+        lattice[(L // 2) - 1, (L // 2) - 1] = N
+        lattice[(L // 2) - 1, (L // 2)] = N
+        lattice[(L // 2) - 1, (L // 2) + 1] = N
+        lattice[L // 2, L // 2 - 1] = N
         lattice[L // 2, L // 2] = N
         lattice[L // 2, L // 2 + 1] = N
-        # lattice[L // 2 + 1, L // 2 - 1] = N
+        lattice[L // 2 + 1, L // 2 - 1] = N
         lattice[L // 2 + 1, L // 2] = N
         lattice[L // 2 + 1, L // 2 + 1] = N
 
