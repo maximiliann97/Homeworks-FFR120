@@ -54,19 +54,19 @@ def initialize_strategies(L, nDefectors, N):
         lattice[3*L//5, 2*L//5] = 0
         lattice[4*L//5, L//5] = 0
 
-    if nDefectors == 'All':
+    if nDefectors == L*L-1:
         lattice = np.zeros([L, L]).astype(int)
         lattice[L // 2, L // 2] = 1
 
-    if nDefectors == 9:
+    if nDefectors == L*L-9:
         lattice = np.zeros([L, L]).astype(int)
-        lattice[(L // 2) - 1, (L // 2) - 1] = N
-        lattice[(L // 2) - 1, (L // 2)] = N
-        lattice[(L // 2) - 1, (L // 2) + 1] = N
-        lattice[L // 2, L // 2 - 1] = N
+        # lattice[(L // 2) - 1, (L // 2) - 1] = N
+        # lattice[(L // 2) - 1, (L // 2)] = N
+        # lattice[(L // 2) - 1, (L // 2) + 1] = N
+        # lattice[L // 2, L // 2 - 1] = N
         lattice[L // 2, L // 2] = N
         lattice[L // 2, L // 2 + 1] = N
-        lattice[L // 2 + 1, L // 2 - 1] = N
+        # lattice[L // 2 + 1, L // 2 - 1] = N
         lattice[L // 2 + 1, L // 2] = N
         lattice[L // 2 + 1, L // 2 + 1] = N
 
@@ -111,7 +111,7 @@ def competition(lattice, N, R, S, P):
 
 def revision(comp_lattice, lattice):
     L = len(lattice)
-    updated_lattice = lattice
+    updated_lattice = np.copy(lattice)
     for i in range(L):
         for j in range(L):
             if j == 0:
