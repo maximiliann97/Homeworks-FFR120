@@ -12,13 +12,14 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = 0.72
+R = 0.5
 S = 1.5
 P = 1
-L = 31
+L = 30
 mu = 0.01
+
 nDefec = "Any"
-timesteps = 10
+timesteps = 100
 
 # Initialization
 lattice = fun.initialize_strategies(L, nDefec, N)
@@ -45,7 +46,7 @@ plt.title(f'{nDefec} initial defectors')
 
 time = np.linspace(0, timesteps+1, timesteps)
 plt.subplot(1, 2, 1)
-colours = ['tab:red', 'tab:blue', 'tab:green', 'tab:purple', 'tab:orange', 'yellow', 'tab:brown', 'tab:pink', 'tab:grey']
+colours = ['tab:red', 'tab:blue', 'tab:green', 'tab:purple', 'yellow', 'tab:brown', 'tab:pink', 'tab:grey']
 
 for i in range(N+1):
     plt.plot(time, strat_mat[i, :], colours[i])
