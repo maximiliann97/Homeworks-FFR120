@@ -35,20 +35,47 @@ def years(m, n, N, R, S, P):
 
 def initialize_strategies(L, nDefectors, N):
     lattice = N * np.ones([L, L]).astype(int)
+
     if nDefectors == 1:
         lattice[L//2, L//2] = 0
+
     if nDefectors == 2:
         lattice[L // 3, 2*L // 3] = 0
         lattice[2*L // 3, L // 3] = 0
+
     if nDefectors == 3:
         lattice[L//2, L//2] = 0
         lattice[L // 4, 3*L // 4] = 0
         lattice[3*L // 4, L // 4] = 0
+
     if nDefectors == 4:
         lattice[L//5, 4*L//5] = 0
         lattice[2*L//5, 3*L//5] = 0
         lattice[3*L//5, 2*L//5] = 0
         lattice[4*L//5, L//5] = 0
+
+    if nDefectors == 'All':
+        lattice = np.zeros([L, L]).astype(int)
+        lattice[L // 2, L // 2] = 1
+
+    if nDefectors == 9:
+        lattice = np.zeros([L, L]).astype(int)
+        lattice[(L // 2) - 1, (L // 2) - 1] = N
+        lattice[(L // 2) - 1, (L // 2)] = N
+        lattice[(L // 2) - 1, (L // 2) + 1] = N
+        lattice[L // 2, L // 2 - 1] = N
+        lattice[L // 2, L // 2] = N
+        lattice[L // 2, L // 2 + 1] = N
+        lattice[L // 2 + 1, L // 2 - 1] = N
+        lattice[L // 2 + 1, L // 2] = N
+        lattice[L // 2 + 1, L // 2 + 1] = N
+
+    if nDefectors == 5050:
+        lattice = np.zeros([L, L]).astype(int)
+        for i in range(L):
+            for j in range(L):
+                if np.random.rand() < 0.5:
+                    lattice[i, j] = N
     return lattice
 
 
@@ -76,7 +103,9 @@ def competition(lattice, N, R, S, P):
                 up = years(lattice[i, j], lattice[L-1, j], N, R, S, P)
             else:
                 up = years(lattice[i, j], lattice[i-1, j], N, R, S, P)
+
             comp_lattice[i, j] = left + right + down + up
+
     return comp_lattice
 
 
@@ -109,6 +138,18 @@ def revision(comp_lattice, lattice):
             neighbours = np.array([self, left, right, down, up])
             index = np.argmin(neighbours)
 
+            # indices = np.where(neighbours == neighbours.min())
+            # indices = indices[0]
+            """
+            # if indices[0] == 0 and len(indices) != 5:
+            #     indices = indices[1:len(indices)]
+            #
+            # if len(indices) == 2 or len(indices) == 3 or len(indices) == 4:
+            """
+            #
+            # k = np.random.randint(0, len(indices))
+            # index = indices[k]
+
             if index == 1:
                 if j - 1 == -1:
                     updated_lattice[i, j] = lattice[i, L-1]
@@ -135,3 +176,16 @@ def revision(comp_lattice, lattice):
             else:
                 updated_lattice[i, j] = lattice[i, j]
     return updated_lattice
+
+
+def mutation(lattice, mu, N):
+    L = len(lattice)
+    for i in range(L):
+        for j in range(L):
+            r = np.random.rand()
+            if r < mu:
+                if np.random.rand() < 0.5:
+                    lattice[i, j] = 0
+                else:
+                    lattice[i, j] = N
+    return lattice
