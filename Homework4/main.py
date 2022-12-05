@@ -8,6 +8,7 @@ Number of defectors: 1, 2, 3, 4
 Also there is L*L-1 for 1 cooperator + only defectors
 L*L-9 = Cluster of cooperators
 5050 = About 50 50 cooperators and defectors randomly initialized
+"Any": Allows any strategy to be initialized over the grid
 """
 
 # Parameters
