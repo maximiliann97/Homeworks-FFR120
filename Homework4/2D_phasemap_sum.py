@@ -20,16 +20,17 @@ S = np.linspace(1, 3, 33)
 P = 1
 L = 30
 mu = 0.01
-
 nDefec = "Any"
 timesteps = 500
+threshold = 10000
 
 # Initialization
 lattice = fun.initialize_strategies(L, nDefec, N)
 
 strat_mat = np.zeros([N+1, timesteps])
 omitted_steps = np.zeros([8, 400])
-big_data = np.zeros([N+1, len(S), len(R)])
+var_sum = 0
+var_sum_mat = np.zeros([len(S), len(R)])
 
 for i, s in enumerate(tqdm(S)):
     for j, r in enumerate(tqdm(R)):
@@ -45,21 +46,22 @@ for i, s in enumerate(tqdm(S)):
         for strategy, _ in enumerate(strat_mat):
             omitted_steps[strategy, :] = strat_mat[strategy, :][100:len(strat_mat[0, :])]
             s_omitted = strat_mat[strategy, :][100:len(strat_mat[0, :])]
-            big_data[strategy, i, j] = variance(s_omitted)
+            var_sum += variance(s_omitted)
+        print(var_sum)
+        if var_sum > threshold:
+            var_sum_mat[i, j] = 1
+        var_sum = 0
 
 
-x_min = np.min(R)
-x_max = np.max(R)
-y_min = np.min(S)
-y_max = np.max(S)
+x_min = R[0]
+x_max = R[len(R)-1]
+y_min = S[0]
+y_max = S[len(S)-1]
 
-for i in range(N+1):
-    strat = np.flip(big_data[i, :, :], 0)
-    plt.subplot(2, 4, i+1)
-    plt.imshow(strat, cmap='jet', extent=[x_min, x_max, y_min, y_max])
-    plt.xlabel('R')
-    plt.ylabel('S')
-    plt.title(f'sigma_{i}')
-    plt.colorbar()
+var_sum_mat = np.flip(var_sum_mat, 0)
+plt.imshow(var_sum_mat, cmap='Greys', extent=[x_min, x_max, y_min, y_max])
+plt.xlabel('R')
+plt.ylabel('S')
+plt.title(f'sigma_n > {threshold}')
+plt.colorbar()
 plt.show()
-
