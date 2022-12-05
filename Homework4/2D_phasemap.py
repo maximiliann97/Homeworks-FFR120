@@ -30,17 +30,9 @@ timesteps = 500
 rows = len(R)*len(S)
 iRow = 0
 lattice = fun.initialize_strategies(L, nDefec, N)
+
 strat_mat = np.zeros([N+1, timesteps])
 omitted_steps = np.zeros([8, 400])
-# var_mat_0 = np.zeros([len(S), len(R)])
-# var_mat_1 = np.zeros([len(S), len(R)])
-# var_mat_2 = np.zeros([len(S), len(R)])
-# var_mat_3 = np.zeros([len(S), len(R)])
-# var_mat_4 = np.zeros([len(S), len(R)])
-# var_mat_5 = np.zeros([len(S), len(R)])
-# var_mat_6 = np.zeros([len(S), len(R)])
-# var_mat_7 = np.zeros([len(S), len(R)])
-
 big_data = np.zeros([N+1, len(S), len(R)])
 
 for i, s in enumerate(tqdm(S)):
@@ -58,26 +50,6 @@ for i, s in enumerate(tqdm(S)):
             omitted_steps[strategy, :] = strat_mat[strategy, :][100:len(strat_mat[0, :])]
             s_omitted = strat_mat[strategy, :][100:len(strat_mat[0, :])]
             big_data[strategy, i, j] = variance(s_omitted)
-
-
-#             if strategy == 0:
-#                 var_mat_0[i, j] = variance(s_omitted)
-#             elif strategy == 1:
-#                 var_mat_1[i, j] = variance(s_omitted)
-#             elif strategy == 2:
-#                 var_mat_2[i, j] = variance(s_omitted)
-#             elif strategy == 3:
-#                 var_mat_3[i, j] = variance(s_omitted)
-#             elif strategy == 4:
-#                 var_mat_4[i, j] = variance(s_omitted)
-#             elif strategy == 5:
-#                 var_mat_5[i, j] = variance(s_omitted)
-#             elif strategy == 6:
-#                 var_mat_6[i, j] = variance(s_omitted)
-#             else:
-#                 var_mat_7[i, j] = variance(s_omitted)
-#
-# var_strat_list = [var_mat_0, var_mat_1, var_mat_2, var_mat_3, var_mat_4, var_mat_5, var_mat_6, var_mat_7]
 
 
 x_min = R[0]
