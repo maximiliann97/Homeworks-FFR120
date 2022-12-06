@@ -15,10 +15,10 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-# R = np.linspace(0.01, 0.99, 33)
-# S = np.linspace(1, 3, 33)
-R = [0.35, 0.5, 0.6, 0.7, 0.8]
-S = [1.5, 3]
+R = np.linspace(0.01, 0.99, 33)
+S = np.linspace(1, 2, 33)
+# R = [0.35, 0.5, 0.6, 0.7, 0.8]
+# S = [1.5, 3]
 P = 1
 L = 30
 mu = 0.01
@@ -53,12 +53,13 @@ x_min = np.min(R)
 x_max = np.max(R)
 y_min = np.min(S)
 y_max = np.max(S)
-
+extent = [x_min, x_max, y_min, y_max]
+aspect = ((x_max-x_min)/len(R)) / ((y_max-y_min)/len(S))
 
 for i in range(N+1):
     strat = np.flip(big_data[i, :, :], 0)
     plt.subplot(2, 4, i+1)
-    plt.imshow(strat, cmap='jet', extent=[x_min, x_max, y_min, y_max])
+    plt.imshow(strat, cmap='jet', aspect=aspect, extent=extent)
     plt.gca()
     plt.xlabel('R')
     plt.ylabel('S')
