@@ -61,7 +61,7 @@ for i in range(N+1):
     plt.imshow(strat, cmap='jet', extent=[x_min, x_max, y_min, y_max])
     plt.xlabel('R')
     plt.ylabel('S')
-    plt.title(f'sigma_{i}')
+    plt.title(rf'$\sigma^2_{i}$')
     plt.colorbar()
 plt.show()
 
