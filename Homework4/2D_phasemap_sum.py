@@ -38,7 +38,7 @@ for i, s in enumerate(tqdm(S)):
             comp_lattice = fun.competition(lattice, N, r, s, P)
             updated_lattice = fun.revision(comp_lattice, lattice)
             lattice = np.copy(updated_lattice)
-            lattice = fun.mutation(lattice, mu, N)
+            lattice = fun.mutation_2(lattice, mu, N)
 
             for n in range(N+1):
                 occurrence = np.count_nonzero(lattice == n)
@@ -47,7 +47,6 @@ for i, s in enumerate(tqdm(S)):
             omitted_steps[strategy, :] = strat_mat[strategy, :][100:len(strat_mat[0, :])]
             s_omitted = strat_mat[strategy, :][100:len(strat_mat[0, :])]
             var_sum += variance(s_omitted)
-        print(var_sum)
         if var_sum > threshold:
             var_sum_mat[i, j] = 1
         var_sum = 0

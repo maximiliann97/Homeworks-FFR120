@@ -15,10 +15,10 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-# R = np.linspace(0.01, 0.99, 33)
-# S = np.linspace(1, 3, 33)
-R = [0.7, 0.9]
-S = [1, 1.5]
+R = np.linspace(0.01, 0.99, 33)
+S = np.linspace(1, 3, 33)
+# R = [0.35, 0.5, 0.6, 0.7, 0.8, 0.9]
+# S = [1.5, 2]
 P = 1
 L = 30
 mu = 0.01
@@ -38,22 +38,22 @@ for i, s in enumerate(tqdm(S)):
         for t in range(timesteps):
             comp_lattice = fun.competition(lattice, N, r, s, P)
             updated_lattice = fun.revision(comp_lattice, lattice)
-            lattice = np.copy(updated_lattice)
-            lattice = fun.mutation(lattice, mu, N)
+            lattice_copy = np.copy(updated_lattice)
+            lattice = fun.mutation_2(lattice_copy, mu, N)
 
             for n in range(N+1):
                 occurrence = np.count_nonzero(lattice == n)
                 strat_mat[n, t] = occurrence
-        for strategy, _ in enumerate(strat_mat):
-            omitted_steps[strategy, :] = strat_mat[strategy, :][100:len(strat_mat[0, :])]
-            s_omitted = strat_mat[strategy, :][100:len(strat_mat[0, :])]
-            big_data[strategy, i, j] = variance(s_omitted)
+        for n in range(N+1):
+            s_omitted = strat_mat[n, :][100:timesteps]
+            big_data[n, i, j] = variance(s_omitted)
 
 
 x_min = np.min(R)
 x_max = np.max(R)
 y_min = np.min(S)
 y_max = np.max(S)
+
 
 for i in range(N+1):
     strat = np.flip(big_data[i, :, :], 0)

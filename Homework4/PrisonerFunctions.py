@@ -196,3 +196,17 @@ def mutation(lattice, mu, N):
                 else:
                     lattice[i, j] = N
     return lattice
+
+
+def mutation_2(lattice, mu, N):
+    L = len(lattice)
+    for i in range(L):
+        for j in range(L):
+            r = np.random.rand()
+            if r < mu:
+                if np.random.rand() < 0.5:
+                    lattice[i, j] = 0
+                else:
+                    lattice[i, j] = np.random.randint(N+1)
+    return lattice
+
