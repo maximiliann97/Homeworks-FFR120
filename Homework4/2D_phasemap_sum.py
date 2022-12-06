@@ -15,8 +15,10 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = np.linspace(0.01, 0.99, 33)
-S = np.linspace(1, 3, 33)
+# R = np.linspace(0.01, 0.99, 33)
+# S = np.linspace(1, 3, 33)
+R = [0.3, 0.5, 0.8]
+S = [1, 2, 3]
 P = 1
 L = 30
 mu = 0.01
@@ -52,15 +54,15 @@ for i, s in enumerate(tqdm(S)):
         var_sum = 0
 
 
-x_min = R[0]
-x_max = R[len(R)-1]
-y_min = S[0]
-y_max = S[len(S)-1]
+x_min = np.min(R)
+x_max = np.max(R)
+y_min = np.min(S)
+y_max = np.max(S)
 
 var_sum_mat = np.flip(var_sum_mat, 0)
 plt.imshow(var_sum_mat, cmap='Greys', extent=[x_min, x_max, y_min, y_max])
 plt.xlabel('R')
 plt.ylabel('S')
-plt.title(rf'$\sum_n\sigma^2_n > {threshold}$ ')
 plt.colorbar()
+plt.title(rf'$\sum_n\sigma^2_n > {threshold}$ ')
 plt.show()

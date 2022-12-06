@@ -59,6 +59,7 @@ for i in range(N+1):
     strat = np.flip(big_data[i, :, :], 0)
     plt.subplot(2, 4, i+1)
     plt.imshow(strat, cmap='jet', extent=[x_min, x_max, y_min, y_max])
+    plt.gca()
     plt.xlabel('R')
     plt.ylabel('S')
     plt.title(rf'$\sigma^2_{i}$')
