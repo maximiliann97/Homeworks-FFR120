@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 
+
 def years(m, n, N, R, S, P):
     T = 0
     years_in_prison = 0
@@ -202,7 +203,6 @@ def mutation_2(lattice, mu, N):
             if r < mu:
                 lattice[i, j] = np.random.randint(N+1)
     return lattice
-
 
 
 def cmap_discretize(cmap, N):

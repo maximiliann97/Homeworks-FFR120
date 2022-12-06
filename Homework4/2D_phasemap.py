@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from statistics import variance
 from tqdm import tqdm
-from tqdm import trange
 
 """
 Number of defectors: 1, 2, 3, 4
@@ -16,9 +15,7 @@ L*L-9 = Cluster of cooperators
 # Parameters
 N = 7
 R = np.linspace(0.01, 0.99, 33)
-S = np.linspace(1, 2, 33)
-# R = [0.35, 0.5, 0.6, 0.7, 0.8]
-# S = [1.5, 3]
+S = np.linspace(1, 3, 33)
 P = 1
 L = 30
 mu = 0.01
@@ -46,15 +43,24 @@ for i, s in enumerate(tqdm(S)):
                 strat_mat[n, t] = occurrence
         for n in range(N+1):
             s_omitted = strat_mat[n, :][100:timesteps]
-            big_data[n, i, j] = variance(s_omitted)
+            print(f'n = {n}, S = {s}, R = {r} {variance(s_omitted)}')
+            if n != 0:
+                if variance(s_omitted) < 15000:
+                    big_data[n, i, j] = variance(s_omitted)
+                else:
+                    big_data[n, i, j] = 15000
+            else:
+                big_data[n, i, j] = variance(s_omitted)
 
 
+np.save('big_data.npy', big_data)
 x_min = np.min(R)
 x_max = np.max(R)
 y_min = np.min(S)
 y_max = np.max(S)
 extent = [x_min, x_max, y_min, y_max]
 aspect = ((x_max-x_min)/len(R)) / ((y_max-y_min)/len(S))
+
 
 for i in range(N+1):
     strat = np.flip(big_data[i, :, :], 0)

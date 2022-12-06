@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from statistics import variance
 from tqdm import tqdm
-from tqdm import trange
 
 """
 Number of defectors: 1, 2, 3, 4
@@ -56,11 +55,14 @@ x_min = np.min(R)
 x_max = np.max(R)
 y_min = np.min(S)
 y_max = np.max(S)
+extent = [x_min, x_max, y_min, y_max]
+aspect = ((x_max-x_min)/len(R)) / ((y_max-y_min)/len(S))
 
 var_sum_mat = np.flip(var_sum_mat, 0)
-plt.imshow(var_sum_mat, cmap='Greys', extent=[x_min, x_max, y_min, y_max])
+plt.imshow(var_sum_mat, cmap='Greys', extent=extent, aspect=aspect)
 plt.xlabel('R')
 plt.ylabel('S')
+plt.gca()
 plt.colorbar()
 plt.title(rf'$\sum_n\sigma^2_n > {threshold}$ ')
 plt.show()

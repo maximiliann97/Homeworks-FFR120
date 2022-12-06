@@ -4,6 +4,7 @@ import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 import numpy as np
 from tqdm import trange
+from statistics import variance
 
 """
 Number of defectors: 1, 2, 3, 4
@@ -15,14 +16,14 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = 0.72
-S = 1.5
+R = 0.16312500000000002
+S = 3
 P = 1
 L = 30
 mu = 0.01
 
 nDefec = "Any"
-timesteps = 100
+timesteps = 500
 
 # Initialization
 lattice = fun.initialize_strategies(L, nDefec, N)
@@ -35,8 +36,13 @@ for t in trange(timesteps):
     lattice = fun.mutation_2(lattice_copy, mu, N)
 
     for n in range(N+1):
-        occurrence = np.count_nonzero(lattice == n) / (L*L)
+        occurrence = np.count_nonzero(lattice == n)
         strat_mat[n, t] = occurrence
+
+for n in range(N + 1):
+    s_omitted = strat_mat[n, :][100:timesteps]
+    print(variance(s_omitted))
+
 
 
 # Plots
