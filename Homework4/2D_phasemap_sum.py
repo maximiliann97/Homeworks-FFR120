@@ -15,10 +15,8 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-# R = np.linspace(0.01, 0.99, 33)
-# S = np.linspace(1, 3, 33)
-R = [0.3, 0.5, 0.8]
-S = [1, 2, 3]
+R = np.linspace(0.01, 0.99, 33)
+S = np.linspace(1, 3, 33)
 P = 1
 L = 30
 mu = 0.01

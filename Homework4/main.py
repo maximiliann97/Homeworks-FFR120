@@ -1,5 +1,7 @@
 import PrisonerFunctions as fun
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
 import numpy as np
 from tqdm import trange
 
@@ -13,7 +15,7 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = 0.7
+R = 0.1
 S = 1.5
 P = 1
 L = 30
@@ -38,22 +40,26 @@ for t in trange(timesteps):
 
 
 # Plots
-plt.subplot(1, 2, 2)
-plt.imshow(lattice, cmap='Set1', aspect='equal')
-plt.colorbar()
-plt.ylabel(f't={timesteps}')
-plt.title(f'R = {R}')
-
-
 time = np.linspace(0, timesteps+1, timesteps)
 plt.subplot(1, 2, 1)
-colours = ['tab:red', 'tab:blue', 'tab:green', 'tab:purple', 'yellow', 'tab:brown', 'tab:pink', 'tab:grey']
+jet = plt.get_cmap('jet_r')
+jet_8_colors = jet(np.linspace(0, 1, 8))
 
 for i in range(N+1):
-    plt.plot(time, strat_mat[i, :], colours[i])
-
+    plt.plot(time, strat_mat[i, :], color=jet_8_colors[i])
 plt.ylabel('Population fraction')
 plt.xlabel('Time')
+
+
+strategies = range(0, 8)
+nColours = 8
+plt.subplot(1, 2, 2)
+cmap = plt.get_cmap('jet_r')
+im = plt.imshow(lattice, cmap=cmap, aspect='equal', origin='lower')
+plt.axis('off')
+fun.colorbar_index(nColours, cmap=cmap)
+plt.ylabel(f't={timesteps}')
+plt.title(f'R = {R}')
 plt.show()
 
 
