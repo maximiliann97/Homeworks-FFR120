@@ -16,8 +16,8 @@ L*L-9 = Cluster of cooperators
 
 # Parameters
 N = 7
-R = 0.16312500000000002
-S = 3
+R = 0.07125
+S = 1.25
 P = 1
 L = 30
 mu = 0.01
