@@ -1,7 +1,5 @@
 import PrisonerFunctions as fun
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.colors as mcolors
 import numpy as np
 from tqdm import trange
 from statistics import variance
