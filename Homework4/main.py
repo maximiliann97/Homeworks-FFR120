@@ -41,7 +41,7 @@ for t in trange(timesteps):
 
 for n in range(N + 1):
     s_omitted = strat_mat[n, :][100:timesteps]
-    print(variance(s_omitted))
+    print(f'n={n}, R={S}, S={S}, var={variance(s_omitted)}')
 
 
 

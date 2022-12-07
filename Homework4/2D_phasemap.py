@@ -53,7 +53,7 @@ for i, s in enumerate(tqdm(S)):
                 big_data[n, i, j] = variance(s_omitted)
 
 
-np.save('big_data.npy', big_data)
+np.save('big_data_restricted.npy', big_data)
 x_min = np.min(R)
 x_max = np.max(R)
 y_min = np.min(S)
